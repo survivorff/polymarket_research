@@ -23,6 +23,151 @@
 
 ## 2. 产品真实情况
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册流程（Avalanche 钱包）
+
+```mermaid
+flowchart TD
+    A[访问 app.chance.markets] --> B[点击 Connect Wallet]
+    B --> C{选择钱包}
+    C --> C1[MetaMask]
+    C --> C2[Core Wallet Avalanche 原生]
+    C --> C3[WalletConnect 扫码]
+    C1 --> D[切换网络至 Avalanche C-Chain]
+    C2 --> D
+    C3 --> D
+    D --> E[签名授权]
+    E --> F[阅读并接受 Beta 免责声明]
+    F --> G[进入主界面]
+    note1[⚠️ 无需邮箱注册，钱包即身份]
+    note2[需要 Avalanche C-Chain 网络，非 Polygon]
+    note3[与 Polymarket 完全独立，不共享账户]
+```
+
+#### 2.0.2 入金流程（需要 AVAX）
+
+```mermaid
+flowchart TD
+    A[需要 AVAX 下注] --> B{获取 AVAX 方式}
+    B --> B1[中心化交易所购买]
+    B --> B2[跨链桥从其他链转入]
+    B --> B3[已持有 AVAX]
+
+    B1 --> C1[在 Coinbase/Binance 购买 AVAX]
+    C1 --> D1[提现至 Avalanche C-Chain 地址]
+    D1 --> E[MetaMask/Core 钱包收到 AVAX]
+
+    B2 --> C2[访问 Avalanche Bridge]
+    C2 --> D2[从 ETH/BSC 桥接 AVAX]
+    D2 --> E
+
+    B3 --> E
+    E --> F[余额显示在 app.chance.markets]
+    F --> G[可开始下注]
+    note1[Chance 平台本身不提供入金界面]
+    note2[需在交易所或桥接完成后直接连接钱包]
+    note3[⚠️ 注意：与 Polymarket 不同，这里用 AVAX 而非 USDC]
+```
+
+#### 2.0.3 交易（预测下注）流程
+
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant APP as app.chance.markets
+    participant CL as Chainlink Oracle
+    participant SC as Avalanche 智能合约
+
+    U->>APP: 选择市场（如 AVAX/USD）
+    APP->>CL: 获取当前价格
+    CL-->>APP: Locked Price（锁定价格）
+    APP->>U: 显示当前轮次状态
+    Note over APP: Entry 开放中（12h 窗口）
+    U->>APP: 选择 UP（看涨）
+    APP->>U: 显示当前赔率
+    Note over APP: UP池/$X，DOWN池/$Y，总池/$Z
+    U->>APP: 输入 1 AVAX
+    APP->>U: 预览：赔率 / 潜在收益 / 手续费 3%
+    U->>APP: 点击确认
+    APP->>SC: 调用合约 enterUp()
+    SC-->>APP: 交易确认
+    APP->>U: 下注成功，等待结算
+    Note over SC: 12小时后...
+    SC->>CL: 请求 Closed Price
+    CL-->>SC: 最终价格
+    SC->>SC: 比对 Locked vs Closed
+    SC->>SC: 计算胜者奖励
+    SC->>U: 奖励可领取（无限期）
+```
+
+#### 2.0.4 赔率计算与风险分析
+
+```mermaid
+flowchart TD
+    A[总奖池 = UP 池 + DOWN 池] --> B[扣除 3% Treasury Fee]
+    B --> C[净奖池 = 总奖池 × 97%]
+    C --> D{你选择了哪边?}
+    D -->|UP 看涨| E[UP 赔率 = 净奖池 ÷ UP 总仓位]
+    D -->|DOWN 看跌| F[DOWN 赔率 = 净奖池 ÷ DOWN 总仓位]
+    E --> G[你的 UP 收益 = 下注额 × UP 赔率]
+    F --> H[你的 DOWN 收益 = 下注额 × DOWN 赔率]
+    G --> I[示例: UP池10 AVAX, 总池150 AVAX]
+    I --> J[UP 赔率 = 145.5 ÷ 10 = 14.55x]
+    note1[赔率随其他用户下注实时变动]
+    note2[小池子赔率高但流动性低]
+```
+
+#### 2.0.5 $PREDICT 代币 + .chance 域名流程
+
+```mermaid
+flowchart TD
+    A[$PREDICT 代币] --> B{用途}
+    B --> B1[治理投票]
+    B --> B2[生态激励]
+    B --> B3[未来功能解锁]
+
+    C[.chance 域名 NFT] --> D{获取方式}
+    D --> D1[铸造 Mint]
+    D1 --> E[访问 domains 页面]
+    E --> F[选择域名]
+    F --> G[支付 AVAX 铸造]
+    G --> H[NFT 到账钱包]
+    H --> I[在账户设置中设为 Active]
+    I --> J[Leaderboard 显示域名而非地址]
+    J --> K[建立链上身份认同]
+```
+
+#### 2.0.6 领取奖励流程
+
+```mermaid
+flowchart TD
+    A[市场结算完成] --> B[Account Summary 页面更新]
+    B --> C[显示 Claimable Rewards]
+    C --> D{是否盈利?}
+    D -->|是| E[显示可领取 AVAX 金额]
+    D -->|否| F[本轮亏损，无奖励]
+    E --> G[点击 Claim All 一键领取]
+    G --> H[MetaMask/Core 签名确认]
+    H --> I[AVAX 到账钱包]
+    I --> J[可继续下注或提现]
+    note1[奖励无领取期限，随时可领]
+    note2[提现即提至已连接的钱包地址，无额外步骤]
+```
+
+#### 2.0.7 Leaderboard 排名系统
+
+```mermaid
+flowchart TD
+    A[每轮下注] --> B[胜利积累积分]
+    B --> C[Leaderboard 排名更新]
+    C --> D{已铸造 .chance 域名?}
+    D -->|是| E[以域名显示 如 alice.chance]
+    D -->|否| F[以截断地址显示 0x1234...]
+    E --> G[更高辨识度 + 社区认同]
+    G --> H[激励购买域名 NFT]
+```
+
 ### 2.1 核心产品
 - **类型**：UP/DOWN 价格预测游戏（Binary Prediction）
 - **链**：Avalanche C Chain

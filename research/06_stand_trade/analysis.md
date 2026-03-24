@@ -37,6 +37,76 @@ Stand（Beta）是一个功能**极为丰富的综合性 Polymarket 交易前端
 
 ## 2. 用户体验路径
 
+### 2.0 注册、入金、交易、提现全流程（详细）
+
+#### 2.0.1 注册流程
+
+```mermaid
+flowchart TD
+    A[访问 stand.trade] --> B[点击 Connect Wallet]
+    B --> C{选择钱包}
+    C --> C1[MetaMask]
+    C --> C2[WalletConnect]
+    C --> C3[Coinbase Wallet]
+    C1 --> D[EIP-712 签名授权]
+    C2 --> D
+    C3 --> D
+    D --> E[Polymarket Proxy Wallet 绑定]
+    E --> F[进入主界面]
+    note1[⚠️ 无需邮箱注册，钱包即身份]
+    note2[首次需 Enable Trading 签名，授权 Proxy Wallet 代理交易]
+```
+
+#### 2.0.2 入金流程
+
+```mermaid
+flowchart TD
+    A[点击 Deposit 入金] --> B{选择入金方式}
+    B --> C[信用卡/借记卡]
+    B --> D[USDC on Polygon 直接转账]
+    B --> E[其他链跨链]
+    C --> C1[MoonPay/Transak 弹窗]
+    C1 --> C2[KYC + 卡片信息]
+    C2 --> C3[USDC 自动到账 Polygon]
+    D --> D1[复制 Polygon 地址]
+    D1 --> D2[从交易所转出 USDC Polygon网络]
+    D2 --> C3
+    E --> E1[跨链桥 Polygon Bridge]
+    E1 --> C3
+    C3 --> F[余额更新，可交易]
+```
+
+#### 2.0.3 Octobox 多市场交易流程
+
+```mermaid
+flowchart TD
+    A[进入 Octobox 模块] --> B[看到 8 格市场网格]
+    B --> C[点击空格 + 添加市场]
+    C --> D[搜索目标市场]
+    D --> E[市场订单簿显示在格子内]
+    E --> F[查看 Yes/No 价格]
+    F --> G[直接点击订单簿行下单]
+    G --> H[确认金额]
+    H --> I[钱包签名]
+    I --> J[成交]
+    B --> K[拖拽格子重新排列]
+    K --> L[自定义监控布局]
+    note1[Octobox = 同时监控 8 个市场的专业工具]
+    note2[类似多显示器交易终端体验]
+```
+
+#### 2.0.4 提现流程
+
+```mermaid
+flowchart TD
+    A[点击 Withdraw 提现] --> B[输入金额]
+    B --> C[输入 Polygon 目标地址]
+    C --> D[钱包签名确认]
+    D --> E[USDC on Polygon 转出]
+    E --> F[约 1-3 分钟到账]
+    note1[持仓需平仓或等待结算后方可提现]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid

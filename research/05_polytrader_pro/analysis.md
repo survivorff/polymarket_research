@@ -62,6 +62,138 @@
 | **8. 多标签/多窗口** | 同时监控多个市场 |
 | **9. 误操作保护** | 大额交易前可选确认弹窗，按持仓比例或金额自定义阈值 |
 
+## 2. 用户体验路径
+
+### 2.0 注册、入金、交易、提现全流程（详细）
+
+#### 2.0.1 PolyTraderPro 购买与安装流程
+
+```mermaid
+flowchart TD
+    A[了解 PolyTraderPro] --> B{发现渠道}
+    B --> B1[大户 Aenews2 口碑推荐]
+    B --> B2[Polymarket 社区/Twitter]
+    B --> B3[builders.polymarket.com]
+    B1 --> C[访问 polytraderpro.com]
+    B2 --> C
+    B3 --> C
+    C --> D[发邮件至 support@polytraderpro.com 购买]
+    D --> E[等待回复 含 License Key + 下载链接]
+    E --> F{选择平台}
+    F --> F1[macOS .dmg 安装包]
+    F --> F2[Windows .exe 安装包]
+    F --> F3[Linux .AppImage]
+    F1 --> G[下载并安装]
+    F2 --> G
+    F3 --> G
+    G --> H[输入 License Key 激活]
+    H --> I[永久登录，无需重复验证]
+    note1[License 价格未公开，需邮件询问]
+    note2[⚠️ 自动化购买 coming soon，当前需人工]
+```
+
+#### 2.0.2 连接 Polymarket 钱包
+
+```mermaid
+flowchart TD
+    A[首次打开 PolyTraderPro] --> B[点击 Connect Wallet]
+    B --> C{选择钱包类型}
+    C --> C1[Magic Link 邮件登录]
+    C --> C2[MetaMask 插件]
+    C --> C3[外部钱包 私钥导入]
+    C1 --> D1[输入 Polymarket 注册邮箱]
+    D1 --> D2[Magic Link 邮件到达]
+    D2 --> D3[点击链接完成连接]
+    C2 --> E1[MetaMask 弹出授权]
+    E1 --> E2[签名 EIP-712]
+    C3 --> F1[输入私钥]
+    F1 --> F2[本地加密存储]
+    D3 --> G[钱包连接成功]
+    E2 --> G
+    F2 --> G
+    G --> H[可添加多个钱包]
+    H --> I[开始交易]
+```
+
+#### 2.0.3 入金流程（通过 Polymarket 官网）
+
+```mermaid
+flowchart TD
+    A[PolyTraderPro 不内置入金界面] --> B[需在 Polymarket 完成入金]
+    B --> C[访问 polymarket.com → Deposit]
+    C --> D{入金方式}
+    D --> D1[信用卡 MoonPay/Transak]
+    D --> D2[USDC on Polygon 直接转账]
+    D --> D3[ETH/其他链 自动跨链]
+    D1 --> E[KYC + 信用卡信息]
+    E --> F[USDC 到账 Proxy Wallet]
+    D2 --> F
+    D3 --> F
+    F --> G[PolyTraderPro 自动同步余额]
+    G --> H[可开始交易]
+```
+
+#### 2.0.4 交易执行流程（5x 速度）
+
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant APP as PolyTraderPro 桌面
+    participant PM as Polymarket API
+    participant PG as Polygon
+
+    Note over APP,PM: 常驻后台连接，永久登录，零重连开销
+    U->>APP: 浏览市场，选择目标
+    APP->>PM: 直接 API 调用（无浏览器渲染层）
+    PM-->>APP: 订单簿数据（极速返回）
+    U->>APP: 点击 Buy YES $200
+    APP->>APP: 本地签名（已缓存凭证）
+    APP->>PM: POST /order
+    PM->>PG: 链上撮合
+    PG-->>PM: 成交
+    PM-->>APP: 成交回执
+    APP->>U: 实时持仓更新
+    Note over APP: 全程约 200-500ms，官方 UI 约 2-3s
+```
+
+#### 2.0.5 价格提醒系统
+
+```mermaid
+flowchart TD
+    A[进入目标市场] --> B[点击 Add Alert 添加提醒]
+    B --> C[选择触发条件]
+    C --> C1[价格到达 X]
+    C --> C2[有流动性添加到价格 X]
+    C --> C3[大额订单成交]
+    C1 --> D[选择提示音]
+    C2 --> D
+    C3 --> D
+    D --> E[设置提醒数量]
+    E --> F[保存提醒]
+    F --> G[App 后台持续监控]
+    G --> H{条件触发?}
+    H -->|是| I[播放提示音]
+    I --> J[用户立即查看]
+    J --> K[快速下单]
+    H -->|否| G
+    note1[可为多个市场同时设置提醒]
+    note2[多窗口/多标签同时监控多个市场]
+```
+
+#### 2.0.6 提现流程（通过 Polymarket）
+
+```mermaid
+flowchart TD
+    A[PolyTraderPro 不内置提现] --> B[在 Polymarket 官网提现]
+    B --> C[polymarket.com → Withdraw]
+    C --> D[输入金额 + 目标地址]
+    D --> E[钱包签名确认]
+    E --> F[USDC on Polygon 转出]
+    F --> G[到账约 1-3 分钟]
+    note1[持仓中资产需等待市场结算后方可提现]
+    note2[PolyTraderPro 收入来自 Builder Fee，不额外收提现费]
+```
+
 ### 2.3 用户体验路径
 
 ```mermaid

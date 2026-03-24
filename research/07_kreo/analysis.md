@@ -28,6 +28,177 @@ Kreo 定位为 **多平台预测市场实时信息流 + 钱包追踪 + 做市工
 
 ## 2. 用户体验路径
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册流程（Telegram OAuth）
+
+```mermaid
+flowchart TD
+    A[访问 kreo.app] --> B[看到 Connect with Telegram 按钮]
+    B --> C[点击连接]
+    C --> D[弹出 Telegram OAuth 授权页]
+    D --> E{已登录 Telegram?}
+    E -->|否| F[打开 Telegram App 扫码]
+    E -->|是| G[点击授权 Allow]
+    F --> G
+    G --> H[@KreoMainBot 接收授权令牌]
+    H --> I[Privy 后台自动创建嵌入式钱包]
+    I --> I1[Polygon 钱包地址]
+    I --> I2[Solana 钱包地址 可选]
+    I1 --> J[登录成功，进入 Feed 主界面]
+    note1[✅ 无需 MetaMask，无需助记词，Telegram 账户即身份]
+    note2[Privy MPC 钱包：私钥分片存储，平台不持有完整私钥]
+```
+
+#### 2.0.2 入金流程（Coinbase Pay + 加密货币）
+
+```mermaid
+flowchart TD
+    A[点击右上角余额或 Deposit] --> B{选择入金方式}
+    B --> C[Coinbase Pay 法币入金]
+    B --> D[USDC on Polygon 直接转账]
+    B --> E[Coinbase Wallet 连接]
+
+    C --> C1[弹出 Coinbase Pay 界面]
+    C1 --> C2[选择金额]
+    C2 --> C3[已有 Coinbase 账户? 直接授权]
+    C2 --> C4[没有? 输入信用卡 + KYC]
+    C3 --> C5[USDC 自动到账 Polygon]
+    C4 --> C5
+
+    D --> D1[复制 Kreo Polygon 钱包地址]
+    D1 --> D2[从交易所/其他钱包转出 USDC]
+    D2 --> D3[选择 Polygon 网络]
+    D3 --> C5
+
+    E --> E1[Coinbase Wallet 扫码连接]
+    E1 --> E2[授权后余额同步]
+
+    C5 --> F[Kreo 余额更新]
+    F --> G[可开始交易]
+    note1[Kalshi 交易需单独在 Kalshi 账户入金，Kreo 仅聚合数据]
+```
+
+#### 2.0.3 Feed → 快速交易流程
+
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant K as Kreo Feed
+    participant API as api.kreo.app
+    participant PM as Polymarket CLOB
+    participant PR as Privy 钱包
+    participant PG as Polygon
+
+    U->>K: 进入 Feed 页面
+    K->>API: 获取实时信息流
+    API-->>K: X 推文 + 异常活动 + 钱包动态
+    U->>K: 发现 Unusual Activity 大额异常单
+    U->>K: 点击 Quick Buy $
+    K->>K: 弹出快速下单面板
+    U->>K: 选择市场 + 方向 + 金额
+    K->>PM: 获取当前价格
+    PM-->>K: 价格确认
+    K->>K: 预览：金额/价格/手续费
+    U->>K: 确认下单
+    K->>PR: Privy 签名（无弹窗）
+    PR->>PM: 提交订单
+    PM->>PG: 链上撮合
+    PG-->>PM: 成交
+    PM-->>K: 回执
+    K->>U: ✅ 成交通知 + 持仓更新
+```
+
+#### 2.0.4 Wallet Tracker 添加与监控
+
+```mermaid
+flowchart TD
+    A[进入 Wallet Tracker 页面] --> B[点击 Add Wallet]
+    B --> C[输入钱包地址 0x...]
+    C --> D[输入备注名称]
+    D --> E[选择分组 或新建分组]
+    E --> F[保存]
+    F --> G[系统开始实时监控]
+    G --> H{钱包有新动作?}
+    H -->|余额变化| I[显示在 Wallet Tracker Feed]
+    H -->|新交易| I
+    I --> J[用户看到动态]
+    J --> K{决定跟单?}
+    K -->|是| L[点击 Quick Buy]
+    K -->|否| G
+```
+
+#### 2.0.5 Alerts 价格提醒设置
+
+```mermaid
+flowchart TD
+    A[进入 Alerts 页面] --> B[点击 Create Alert]
+    B --> C{提醒类型}
+    C --> C1[Price Alert 价格提醒]
+    C --> C2[Keyword Highlight 关键词高亮]
+    C --> C3[Custom Sound 自定义声音]
+    C --> C4[Kalshi 通知]
+    C1 --> D1[选择市场]
+    D1 --> D2[设置目标价格]
+    D2 --> D3[设置触发方向]
+    D3 --> E[保存]
+    C2 --> F1[输入关键词]
+    F1 --> F2[选择高亮颜色]
+    F2 --> E
+    C3 --> G1[上传或选择音频文件]
+    G1 --> G2[绑定到特定提醒]
+    G2 --> E
+    E --> H[提醒激活]
+    H --> I{条件触发?}
+    I -->|是| J[浏览器通知 + 自定义声音]
+    J --> K[用户快速响应下单]
+    I -->|否| H
+```
+
+#### 2.0.6 Rewards 分级返佣 + 领奖
+
+```mermaid
+flowchart TD
+    A[开始交易] --> B[累积交易量]
+    B --> C{当前等级}
+    C --> C1[Bronze 初级]
+    C --> C2[Silver 中级]
+    C --> C3[Gold 高级]
+    C1 --> D1[基础 Cashback %]
+    C2 --> D2[较高 Cashback %]
+    C3 --> D3[最高 Cashback %]
+    D1 --> E[每笔交易产生 Cashback]
+    D2 --> E
+    D3 --> E
+    E --> F[累积 Total Unclaimed 余额]
+    F --> G[进入 Rewards 页面]
+    G --> H[查看 Cashback + Referral 分开显示]
+    H --> I[点击 Claim 领取]
+    I --> J[USDC 入账账户余额]
+    J --> K[可继续交易或提现]
+
+    L[生成推荐链接 kreo.app/@用户名] --> M[分享给新用户]
+    M --> N[新用户注册 + 交易]
+    N --> O[推荐人获得 Referral % 佣金]
+    O --> F
+    note1[具体 Bronze/Silver/Gold 门槛及费率需登录后查看]
+```
+
+#### 2.0.7 提现流程
+
+```mermaid
+flowchart TD
+    A[点击账户 → Withdraw] --> B[输入提现金额]
+    B --> C[输入目标 Polygon 地址]
+    C --> D[Privy 签名确认（无弹窗，自动）]
+    D --> E[USDC on Polygon 转出]
+    E --> F[到账约 1-3 分钟]
+    F --> G[如需提至其他链]
+    G --> H[在目标链交易所/跨链桥完成]
+    note1[Kalshi 余额在 Kalshi 官网提现，Kreo 不代管]
+    note2[Rewards Cashback 领取后进入余额，同样可提现]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid
