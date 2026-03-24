@@ -88,8 +88,8 @@ flowchart TD
     F3 --> G
     G --> H[输入 License Key 激活]
     H --> I[永久登录，无需重复验证]
-    note1[License 价格未公开，需邮件询问]
-    note2[⚠️ 自动化购买 coming soon，当前需人工]
+    %% 注: License 价格未公开，需邮件询问
+    %% 注: ⚠️ 自动化购买 coming soon，当前需人工
 ```
 
 #### 2.0.2 连接 Polymarket 钱包
@@ -176,8 +176,8 @@ flowchart TD
     I --> J[用户立即查看]
     J --> K[快速下单]
     H -->|否| G
-    note1[可为多个市场同时设置提醒]
-    note2[多窗口/多标签同时监控多个市场]
+    %% 注: 可为多个市场同时设置提醒
+    %% 注: 多窗口/多标签同时监控多个市场
 ```
 
 #### 2.0.6 提现流程（通过 Polymarket）
@@ -190,8 +190,8 @@ flowchart TD
     D --> E[钱包签名确认]
     E --> F[USDC on Polygon 转出]
     F --> G[到账约 1-3 分钟]
-    note1[持仓中资产需等待市场结算后方可提现]
-    note2[PolyTraderPro 收入来自 Builder Fee，不额外收提现费]
+    %% 注: 持仓中资产需等待市场结算后方可提现
+    %% 注: PolyTraderPro 收入来自 Builder Fee，不额外收提现费
 ```
 
 ### 2.3 用户体验路径

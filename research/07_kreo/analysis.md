@@ -46,8 +46,8 @@ flowchart TD
     I --> I1[Polygon 钱包地址]
     I --> I2[Solana 钱包地址 可选]
     I1 --> J[登录成功，进入 Feed 主界面]
-    note1[✅ 无需 MetaMask，无需助记词，Telegram 账户即身份]
-    note2[Privy MPC 钱包：私钥分片存储，平台不持有完整私钥]
+    %% 注: ✅ 无需 MetaMask，无需助记词，Telegram 账户即身份
+    %% 注: Privy MPC 钱包：私钥分片存储，平台不持有完整私钥
 ```
 
 #### 2.0.2 入金流程（Coinbase Pay + 加密货币）
@@ -76,7 +76,7 @@ flowchart TD
 
     C5 --> F[Kreo 余额更新]
     F --> G[可开始交易]
-    note1[Kalshi 交易需单独在 Kalshi 账户入金，Kreo 仅聚合数据]
+    %% 注: Kalshi 交易需单独在 Kalshi 账户入金，Kreo 仅聚合数据
 ```
 
 #### 2.0.3 Feed → 快速交易流程
@@ -181,7 +181,7 @@ flowchart TD
     M --> N[新用户注册 + 交易]
     N --> O[推荐人获得 Referral % 佣金]
     O --> F
-    note1[具体 Bronze/Silver/Gold 门槛及费率需登录后查看]
+    %% 注: 具体 Bronze/Silver/Gold 门槛及费率需登录后查看
 ```
 
 #### 2.0.7 提现流程
@@ -195,8 +195,8 @@ flowchart TD
     E --> F[到账约 1-3 分钟]
     F --> G[如需提至其他链]
     G --> H[在目标链交易所/跨链桥完成]
-    note1[Kalshi 余额在 Kalshi 官网提现，Kreo 不代管]
-    note2[Rewards Cashback 领取后进入余额，同样可提现]
+    %% 注: Kalshi 余额在 Kalshi 官网提现，Kreo 不代管
+    %% 注: Rewards Cashback 领取后进入余额，同样可提现
 ```
 
 ### 2.1 完整用户旅程

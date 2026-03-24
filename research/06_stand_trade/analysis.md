@@ -53,8 +53,8 @@ flowchart TD
     C3 --> D
     D --> E[Polymarket Proxy Wallet 绑定]
     E --> F[进入主界面]
-    note1[⚠️ 无需邮箱注册，钱包即身份]
-    note2[首次需 Enable Trading 签名，授权 Proxy Wallet 代理交易]
+    %% 注: ⚠️ 无需邮箱注册，钱包即身份
+    %% 注: 首次需 Enable Trading 签名，授权 Proxy Wallet 代理交易
 ```
 
 #### 2.0.2 入金流程
@@ -91,8 +91,8 @@ flowchart TD
     I --> J[成交]
     B --> K[拖拽格子重新排列]
     K --> L[自定义监控布局]
-    note1[Octobox = 同时监控 8 个市场的专业工具]
-    note2[类似多显示器交易终端体验]
+    %% 注: Octobox = 同时监控 8 个市场的专业工具
+    %% 注: 类似多显示器交易终端体验
 ```
 
 #### 2.0.4 提现流程
@@ -104,7 +104,7 @@ flowchart TD
     C --> D[钱包签名确认]
     D --> E[USDC on Polygon 转出]
     E --> F[约 1-3 分钟到账]
-    note1[持仓需平仓或等待结算后方可提现]
+    %% 注: 持仓需平仓或等待结算后方可提现
 ```
 
 ### 2.1 完整用户旅程

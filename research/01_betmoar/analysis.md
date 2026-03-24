@@ -161,8 +161,8 @@ flowchart TD
     F2 --> G
     G --> H[USDC 到账目标地址]
     H --> I[提现完成通知]
-    note1[⚠️ 提现前需先平仓持仓]
-    note2[⚠️ 提现至 Polygon 地址，转到 CEX 需注意网络]
+    %% 注: ⚠️ 提现前需先平仓持仓
+    %% 注: ⚠️ 提现至 Polygon 地址，转到 CEX 需注意网络
 ```
 
 #### 3.0.5 Discord Bot 注册与入金流程

@@ -104,10 +104,10 @@ graph TD
     A[交易者] --> B[EVplus AI Terminal]
 
     B --> C{核心模块}
-    C --> C1[ATV4 自动交易 ✅]
-    C --> C2[EVFarm 套利 ✅]
-    C --> C3[Funding Rates ✅]
-    C --> C4[Premium Signals ✅]
+    C --> C1["ATV4 自动交易 Live"]
+    C --> C2["EVFarm 套利 Live"]
+    C --> C3["Funding Rates Live"]
+    C --> C4["Premium Signals New"]
     C --> C5[Polymarket Bot 🚧]
 
     C1 --> D1[Hyperliquid API]

@@ -43,9 +43,9 @@
 graph TD
     A[用户] --> B[Bullpen 平台]
     B --> C{核心功能 - 待确认}
-    C --> C1[可能: 体育预测专区\nNFL/NBA/MLB 等]
-    C --> C2[可能: 复制交易\n跟随顶级交易者]
-    C --> C3[可能: 交易信号\n精准入场时机]
+    C --> C1[可能: 体育预测专区 NFL/NBA/MLB]
+    C --> C2[可能: 复制交易 跟随顶级交易者]
+    C --> C3[可能: 交易信号 精准入场时机]
     C --> D[Polymarket CLOB API]
     D --> E[Polygon 链]
 ```

@@ -63,7 +63,7 @@ flowchart TD
     F1 --> I[注册完成 进入主界面]
     G --> I
     H --> I
-    note1[✅ 平台自动覆盖所有 Polygon gas 费，用户无需持有 POL]
+    %% 注: ✅ 平台自动覆盖所有 Polygon gas 费，用户无需持有 POL
 ```
 
 #### 2.0.2 入金流程（MoonPay 法币 + 加密货币）
@@ -156,7 +156,7 @@ flowchart TD
     D --> D1[提现到 Polygon 地址]
     D --> D2[提现到中心化交易所]
     D1 --> E[Privy 签名确认]
-    D2 --> F[⚠️ 需确认交易所支持 Polygon USDC]
+    D2 --> F["注意：需确认交易所支持 Polygon USDC"]
     F --> G[填写交易所充值地址]
     G --> E
     E --> H[USDC on Polygon 转出]
@@ -164,8 +164,8 @@ flowchart TD
 
     J[如需法币提现] --> K[在交易所将 USDC 换成法币]
     K --> L[银行出金]
-    note1[⚠️ 持仓中的资产无法直接提现，需先平仓或等待结算]
-    note2[已知：Polymtrade 覆盖 gas，提现不需持有 POL]
+    %% 注: ⚠️ 持仓中的资产无法直接提现，需先平仓或等待结算
+    %% 注: 已知：Polymtrade 覆盖 gas，提现不需持有 POL
 ```
 
 #### 2.0.6 市场结算 → 收益到账流程
@@ -181,8 +181,8 @@ flowchart TD
     F --> H[USDC 自动到账 Proxy Wallet]
     H --> I[Polymtrade 余额更新]
     I --> J[可继续交易或提现]
-    note1[✅ 结算完全自动，无需手动操作]
-    note2[结算后 $PM 费用照常收取（若持有不足 1M $PM）]
+    %% 注: ✅ 结算完全自动，无需手动操作
+    %% 注: 结算后 $PM 费用照常收取（若持有不足 1M $PM）
 ```
 
 ### 2.1 完整用户旅程

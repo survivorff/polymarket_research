@@ -40,9 +40,9 @@ flowchart TD
     D --> E[签名授权]
     E --> F[阅读并接受 Beta 免责声明]
     F --> G[进入主界面]
-    note1[⚠️ 无需邮箱注册，钱包即身份]
-    note2[需要 Avalanche C-Chain 网络，非 Polygon]
-    note3[与 Polymarket 完全独立，不共享账户]
+    %% 注: ⚠️ 无需邮箱注册，钱包即身份
+    %% 注: 需要 Avalanche C-Chain 网络，非 Polygon
+    %% 注: 与 Polymarket 完全独立，不共享账户
 ```
 
 #### 2.0.2 入金流程（需要 AVAX）
@@ -65,9 +65,9 @@ flowchart TD
     B3 --> E
     E --> F[余额显示在 app.chance.markets]
     F --> G[可开始下注]
-    note1[Chance 平台本身不提供入金界面]
-    note2[需在交易所或桥接完成后直接连接钱包]
-    note3[⚠️ 注意：与 Polymarket 不同，这里用 AVAX 而非 USDC]
+    %% 注: Chance 平台本身不提供入金界面
+    %% 注: 需在交易所或桥接完成后直接连接钱包
+    %% 注: ⚠️ 注意：与 Polymarket 不同，这里用 AVAX 而非 USDC
 ```
 
 #### 2.0.3 交易（预测下注）流程
@@ -114,8 +114,8 @@ flowchart TD
     F --> H[你的 DOWN 收益 = 下注额 × DOWN 赔率]
     G --> I[示例: UP池10 AVAX, 总池150 AVAX]
     I --> J[UP 赔率 = 145.5 ÷ 10 = 14.55x]
-    note1[赔率随其他用户下注实时变动]
-    note2[小池子赔率高但流动性低]
+    %% 注: 赔率随其他用户下注实时变动
+    %% 注: 小池子赔率高但流动性低
 ```
 
 #### 2.0.5 $PREDICT 代币 + .chance 域名流程
@@ -151,8 +151,8 @@ flowchart TD
     G --> H[MetaMask/Core 签名确认]
     H --> I[AVAX 到账钱包]
     I --> J[可继续下注或提现]
-    note1[奖励无领取期限，随时可领]
-    note2[提现即提至已连接的钱包地址，无额外步骤]
+    %% 注: 奖励无领取期限，随时可领
+    %% 注: 提现即提至已连接的钱包地址，无额外步骤
 ```
 
 #### 2.0.7 Leaderboard 排名系统

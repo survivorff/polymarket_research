@@ -99,14 +99,14 @@ graph TD
     A --> G[动量类]
     A --> H[社媒类]
 
-    B --> B1[🌡️ Polymarket Weather Trader\nNOAA 气象数据自动交易]
-    C --> C1[🐋 Polymarket Copytrading\n大户钱包信号聚合跟单]
-    D --> D1[🎯 Signal Sniper\nRSS Feed 突发新闻交易]
-    E --> E1[📓 Prediction Trade Journal\n自动记录+月度校准报告]
-    F --> F1[🔮 AI Divergence\nSimmer AI 共识 vs Polymarket 价差]
-    G --> G1[⏱️ Mert Sniper\n近到期市场抢单]
-    G --> G2[⚡ Polymarket Fast Loop\nBTC 5/15分钟动量套利]
-    H --> H1[🐦 Elon Tweet Trader\nXTracker 推文数据交易]
+    B --> B1["Weather Trader 气象数据自动交易"]
+    C --> C1[Copytrading 大户钱包信号聚合跟单]
+    D --> D1[Signal Sniper RSS突发新闻交易]
+    E --> E1[Trade Journal 自动记录月度校准]
+    F --> F1[AI Divergence Simmer共识vs市场价差]
+    G --> G1["Mert Sniper 近到期市场抢单"]
+    G --> G2[Fast Loop BTC动量套利]
+    H --> H1[Elon Tweet Trader XTracker推文数据]
 ```
 
 **Skills 安装命令**：
