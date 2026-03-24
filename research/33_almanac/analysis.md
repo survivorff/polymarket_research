@@ -25,6 +25,114 @@ Almanac 定位极具创意：**「Accurate Before It's Obvious」（在显而易
 
 ## 2. 用户体验路径（实测）
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册/进入流程
+
+```mermaid
+flowchart TD
+    A[访问 almanac.market] --> B[阅读 Problem/Solution 介绍]
+    B --> C[点击 Enter Terminal]
+    C --> D[跳转 beta.almanac.market]
+    D --> E{已有账户?}
+    E -->|否| F[点击 Create Account]
+    F --> G[邮箱注册]
+    G --> H[邮件验证]
+    H --> I[登录进入 Terminal]
+    E -->|是| I
+    I --> J[查看当前 Epoch 奖池 如 4938 USDC]
+    J --> K[了解 How It Works 机制]
+```
+
+#### 2.0.2 入金流程
+
+```mermaid
+flowchart TD
+    A[进入 Almanac Terminal] --> B[连接 Polymarket 账户]
+    B --> C{Polymarket 账户已有资金?}
+    C -->|否| D[前往 polymarket.com 入金]
+    D --> D1[信用卡 on-ramp]
+    D --> D2[USDC on Polygon 直转]
+    D1 --> E[USDC 到账 Proxy Wallet]
+    D2 --> E
+    C -->|是| E
+    E --> F[Almanac Terminal 读取余额]
+    F --> G[可开始在 75 个市场交易]
+```
+
+#### 2.0.3 早期仓位建立流程（核心机制）
+
+```mermaid
+flowchart TD
+    A[进入 Almanac Terminal] --> B[浏览 75 个市场]
+    B --> C{筛选策略}
+    C --> C1[Trending 热门市场]
+    C --> C2[Sports 体育]
+    C --> C3[Crypto 加密货币]
+    C --> C4[Politics 政治]
+    C --> C5[Weather 天气]
+    C1 --> D[查看市场详情]
+    C4 --> D
+    D --> E[关注距结算时间]
+    E --> E1[31个月后到期 时间权重最高]
+    E --> E2[7天后到期 时间权重低]
+    E1 --> F[建立早期仓位]
+    E2 --> G[普通交易 无额外 Yield 加成]
+    F --> H[选择 YES 或 NO]
+    H --> I[输入 USDC 金额]
+    I --> J[确认下单]
+    J --> K[Polymarket CLOB 成交]
+    K --> L[进入当前 Epoch 奖励计算]
+```
+
+#### 2.0.4 Epoch 奖励累积与查看流程
+
+```mermaid
+flowchart TD
+    A[在 Epoch 内完成早期交易] --> B[系统记录建仓时间]
+    B --> C[计算时间权重]
+    C --> D{距 Resolution 越远 权重越高}
+    D -->|31个月| E[权重最高]
+    D -->|7天| F[权重最低]
+    E --> G[纳入 Epoch 奖励池分配]
+    F --> G
+    G --> H[Epoch 约12小时结算一次]
+    H --> I{本 Epoch 内交易是否盈利?}
+    I -->|是| J[按时间权重分配奖励]
+    J --> K[获得额外 Yield USDC]
+    I -->|否| L[无 Epoch 奖励]
+    K --> M[下一个 Epoch 开始]
+    M --> A
+```
+
+#### 2.0.5 提现流程
+
+```mermaid
+flowchart TD
+    A[交易盈利 + Epoch Yield 到账] --> B[在 Almanac Terminal 查看余额]
+    B --> C[点击 Withdraw]
+    C --> D[跳转或调用 Polymarket 提现]
+    D --> E[输入 Polygon 提现地址]
+    E --> F[输入 USDC 金额]
+    F --> G[钱包签名确认]
+    G --> H[Polygon 链上广播]
+    H --> I[USDC 到账目标地址]
+```
+
+#### 2.0.6 领奖/结算流程
+
+```mermaid
+flowchart TD
+    A[持有仓位的市场到期] --> B[Polymarket UMA Oracle 解析结果]
+    B --> C{持仓方向正确?}
+    C -->|是| D[基础结算 1 USDC/份]
+    D --> E[叠加 Epoch Yield 额外收益]
+    E --> F[总收益 = 基础结算 + 早期建仓奖励]
+    F --> G[USDC 返回账户]
+    C -->|否| H[仓位归零 无 Epoch 奖励]
+    G --> I[可继续参与下一个 Epoch]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid

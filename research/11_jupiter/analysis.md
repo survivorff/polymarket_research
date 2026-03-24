@@ -37,11 +37,129 @@ jup.ag 顶部导航模块：
 
 ## 2. 用户体验路径（实测）
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册/连接流程（Solana 钱包用户）
+
+```mermaid
+flowchart TD
+    A[访问 jup.ag] --> B[顶部导航点击 Predict]
+    B --> C[进入 Jupiter Predict 预测市场页]
+    C --> D{已有 Solana 钱包?}
+    D -->|否| E[下载安装 Phantom 或 Backpack]
+    E --> F[创建 Solana 钱包]
+    F --> G[获得 Solana 地址]
+    D -->|是| G
+    G --> H[点击 Connect Wallet]
+    H --> I[Phantom/Backpack 弹窗授权]
+    I --> J[连接成功 进入 Predict 界面]
+    J --> K[无需单独注册 钱包即身份]
+```
+
+#### 2.0.2 入金流程（Solana USDC → Polymarket）
+
+```mermaid
+flowchart TD
+    A[Solana 钱包已连接] --> B{已有 Solana 上的 USDC?}
+    B -->|否| C[购买 USDC]
+    C --> C1[方式一: Jupiter Swap 将 SOL 换成 USDC]
+    C --> C2[方式二: 从 CEX 提现 USDC 至 Solana 地址]
+    C1 --> D[Solana 钱包持有 USDC]
+    C2 --> D
+    B -->|是| D
+    D --> E[在 Jupiter Predict 选择市场下单]
+    E --> F[系统自动发起跨链]
+    F --> G[Circle CCTP 跨链 Solana USDC → Polygon USDC]
+    G --> H[原生 USDC 到账 无桥接损耗]
+    H --> I[Polymarket CLOB 收到资金]
+    I --> J[订单提交执行]
+```
+
+#### 2.0.3 浏览市场与下单流程
+
+```mermaid
+flowchart TD
+    A[进入 Jupiter Predict 界面] --> B[浏览 Polymarket 市场列表]
+    B --> C{筛选市场}
+    C --> C1[按分类 政治/加密/体育]
+    C --> C2[按交易量排序]
+    C --> C3[搜索关键词]
+    C1 --> D[选择目标市场]
+    C2 --> D
+    C3 --> D
+    D --> E[查看市场详情]
+    E --> E1[当前 YES/NO 价格]
+    E --> E2[成交量和流动性]
+    E --> E3[到期时间]
+    E3 --> F{选择方向}
+    F --> F1[买入 YES]
+    F --> F2[买入 NO]
+    F1 --> G[输入 USDC 金额]
+    F2 --> G
+    G --> H[预览 估价/手续费/跨链费]
+    H --> I[确认下单]
+    I --> J[Phantom/Backpack 钱包弹窗签名]
+    J --> K[CCTP 跨链 + CLOB 成交]
+    K --> L[持仓出现在 Jupiter Portfolio]
+```
+
+#### 2.0.4 持仓管理流程
+
+```mermaid
+flowchart TD
+    A[点击顶部 Portfolio] --> B[查看所有持仓]
+    B --> C[找到预测市场持仓分类]
+    C --> D{操作选择}
+    D --> D1[持有等待结算]
+    D --> D2[提前平仓卖出]
+    D1 --> E[市场到期 Polymarket 解析结果]
+    D2 --> F[提交 Sell 订单]
+    F --> G[CLOB 成交]
+    G --> H[USDC 返回 Polygon]
+    H --> I[CCTP 跨链回 Solana]
+    I --> J[Solana 钱包余额更新]
+    E --> K{持仓方向正确?}
+    K -->|是| L[结算 USDC 通过 CCTP 返还 Solana]
+    K -->|否| M[仓位归零 损失本金]
+```
+
+#### 2.0.5 提现流程
+
+```mermaid
+flowchart TD
+    A[市场结算完成 或 平仓成功] --> B[USDC 在 Polygon 侧]
+    B --> C[Jupiter 自动触发 CCTP 返还]
+    C --> D[USDC 跨链回 Solana]
+    D --> E[Solana 钱包收到 USDC]
+    E --> F{进一步操作?}
+    F --> F1[在 Jupiter Swap 换成 SOL]
+    F --> F2[提现到 CEX]
+    F --> F3[继续交易]
+    F2 --> G[从 Solana 钱包转至 CEX 充值地址]
+    G --> H[到账 可法币提现]
+```
+
+#### 2.0.6 领奖/结算流程
+
+```mermaid
+flowchart TD
+    A[持有 YES 或 NO 仓位] --> B[市场到期日到达]
+    B --> C[Polymarket UMA Oracle 解析]
+    C --> D{解析结果}
+    D -->|YES 获胜| E[持有 YES 的用户按比例获得 1 USDC/份]
+    D -->|NO 获胜| F[持有 NO 的用户按比例获得 1 USDC/份]
+    E --> G[USDC 自动分配到 Polygon 侧]
+    F --> G
+    G --> H[Jupiter CCTP 自动跨链回 Solana]
+    H --> I[Solana 钱包收到奖励 USDC]
+    I --> J[Portfolio 持仓消失 结算完成]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid
 journey
-    title Jupiter × Polymarket 用户完整体验旅程
+    title Jupiter x Polymarket 用户完整体验旅程
     section 发现入口
       访问 jup.ag: 5: 用户
       顶部导航发现 Predict 标签: 4: 用户
@@ -53,7 +171,7 @@ journey
     section 下单
       选择市场和方向 YES/NO: 5: 用户
       连接 Solana 钱包 Phantom/Backpack: 4: 用户
-      系统自动处理 USDC 跨链 Solana→Polygon: 3: 系统
+      系统自动处理 USDC 跨链 Solana Polygon: 3: 系统
       订单在 Polymarket CLOB 执行: 4: 系统
       收到成交确认: 4: 用户
     section 持仓管理
@@ -72,13 +190,13 @@ sequenceDiagram
     participant P as Polymarket CLOB
     participant PG as Polygon 链
 
-    U->>J: 选择市场，输入 USDC 金额
-    J->>CCTP: 发起 USDC 原生跨链 Solana→Polygon
-    CCTP-->>PG: 原生 USDC 到账，无滑点
+    U->>J: 选择市场 输入 USDC 金额
+    J->>CCTP: 发起 USDC 原生跨链 Solana 到 Polygon
+    CCTP-->>PG: 原生 USDC 到账 无滑点
     J->>P: 通过 Builder API 提交订单
-    P->>PG: 链上成交
+    P->>PG: 链上撮合
     PG-->>J: 成交回执
-    J-->>U: Portfolio 更新，持仓显示
+    J-->>U: Portfolio 更新 持仓显示
 ```
 
 ### 2.3 集成优势分析
@@ -153,10 +271,10 @@ graph LR
 ## 5. 商业模式
 
 ```mermaid
-pie title Jupiter × Polymarket 收入来源
+pie title Jupiter x Polymarket 收入来源
     "Builder Fee 分成" : 50
     "跨链手续费" : 30
-    "$JUP 生态协同价值" : 20
+    "JUP 生态协同价值" : 20
 ```
 
 ### 5.1 收入测算

@@ -99,6 +99,47 @@ flowchart TD
 
 ```mermaid
 flowchart TD
+    A[点击 Withdraw 提现] --> B[输入目标 Polygon 地址]
+    B --> C[输入 USDC 金额]
+    C --> D[确认提现]
+    D --> E[钱包签名授权]
+    E --> F[Polygon 链上广播]
+    F --> G[USDC 到账目标地址]
+    G --> H[提现完成]
+```
+
+#### 2.0.5 复制交易流程（Copy Trade 模块）
+
+```mermaid
+flowchart TD
+    A[进入 Copy Trade 模块] --> B[浏览顶级交易者排行]
+    B --> C[查看 PnL / 胜率 / 交易记录]
+    C --> D{决定跟随?}
+    D -->|是| E[点击 Copy 按钮]
+    E --> F[设置跟单资金比例]
+    F --> G[确认开启跟单]
+    G --> H[Stand.trade 引擎 24/7 监控]
+    H --> I{目标下单?}
+    I -->|是| J[自动按比例镜像]
+    J --> K[推送通知]
+    I -->|否| H
+    D -->|否| L[继续浏览]
+```
+
+#### 2.0.6 市场结算/领奖流程
+
+```mermaid
+flowchart TD
+    A[持仓市场到期] --> B[Polymarket UMA Oracle 解析]
+    B --> C{持仓方向正确?}
+    C -->|是| D[按 1 USDC/份 自动结算]
+    D --> E[USDC 返回 Stand.trade 账户余额]
+    E --> F[可继续交易或提现]
+    C -->|否| G[仓位归零 损失本金]
+```
+
+```mermaid
+flowchart TD
     A[点击 Withdraw 提现] --> B[输入金额]
     B --> C[输入 Polygon 目标地址]
     C --> D[钱包签名确认]

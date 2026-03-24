@@ -31,6 +31,155 @@ Olympus 定位为 **非托管复制交易 + 手动交易终端**，口号是「A
 
 ## 2. 用户体验路径
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册流程（Privy 非托管钱包）
+
+```mermaid
+flowchart TD
+    A[访问 olympusx.app] --> B[点击 Sign Up / Connect]
+    B --> C{选择注册方式}
+    C --> C1[邮箱注册 via Privy]
+    C --> C2[Google 账号 via Privy]
+    C --> C3[Twitter/X 账号 via Privy]
+    C --> C4[已有钱包 MetaMask/WalletConnect]
+    C1 --> D[Privy 发送验证码]
+    D --> E[验证成功]
+    C2 --> E
+    C3 --> E
+    C4 --> E
+    E --> F[Privy MPC 自动生成非托管钱包]
+    F --> G[获得 Polygon 钱包地址]
+    G --> H[进入 Olympusx 主界面]
+    H --> I[私钥由 Privy MPC 分片管理 用户可随时导出]
+```
+
+#### 2.0.2 入金流程
+
+```mermaid
+flowchart TD
+    A[进入 Olympusx 主界面] --> B[点击 Deposit 或余额区域]
+    B --> C{选择入金方式}
+    C --> C1[信用卡/借记卡 法币]
+    C --> C2[USDC on Polygon 直接转账]
+    C --> C3[其他链 USDC 跨链]
+    C1 --> D[MoonPay / Transak 弹窗]
+    D --> D1[输入卡号信息]
+    D1 --> D2[完成 KYC 实名认证]
+    D2 --> E[USDC 到账 Polygon MPC 钱包]
+    C2 --> F[复制 Polygon 钱包地址]
+    F --> G[从 CEX 或其他钱包转入 USDC]
+    G --> E
+    C3 --> H[跨链桥界面 选择来源链]
+    H --> I[USDC 桥接至 Polygon]
+    I --> E
+    E --> J[余额显示更新 可开始使用]
+```
+
+#### 2.0.3 复制交易流程（核心功能）
+
+```mermaid
+flowchart TD
+    A[进入 Traders 排行榜] --> B[查看顶级交易者数据]
+    B --> B1[PnL 盈亏历史]
+    B --> B2[胜率 Win Rate]
+    B --> B3[累计交易量]
+    B --> B4[开仓/平仓记录]
+    B4 --> C[点击进入交易者详情页]
+    C --> D[查看实时持仓和历史走势]
+    D --> E{决定跟随?}
+    E -->|是| F[点击 Copy 按钮]
+    E -->|否| G[继续浏览其他交易者]
+    F --> H[配置跟单参数]
+    H --> H1[分配跟单资金 USDC]
+    H --> H2[设置单笔最大限额]
+    H --> H3[设置最大亏损止损]
+    H3 --> I[确认开启跟单]
+    I --> J[Olympusx 引擎 24/7 监控目标]
+    J --> K{目标交易者下单?}
+    K -->|是| L[自动按比例执行]
+    L --> M[推送通知给用户]
+    K -->|否| J
+```
+
+#### 2.0.4 手动交易流程
+
+```mermaid
+flowchart TD
+    A[切换到手动交易模式] --> B[浏览市场列表]
+    B --> C[搜索或分类筛选]
+    C --> D[进入市场详情]
+    D --> D1[查看实时价格图表]
+    D --> D2[查看 Live Order Book 订单簿]
+    D --> D3[查看 Live Trade Feed 成交流]
+    D3 --> E[分析后决定交易方向]
+    E --> F{订单类型}
+    F --> F1[Market Order 市价单]
+    F --> F2[Limit Order 限价单]
+    F1 --> G[输入金额]
+    F2 --> G2[输入价格和金额]
+    G --> H[预览滑点和手续费]
+    G2 --> H
+    H --> I[确认下单 Privy 自动签名]
+    I --> J[Polymarket CLOB 成交]
+    J --> K[持仓更新 实时 PnL 显示]
+```
+
+#### 2.0.5 体育预测市场流程
+
+```mermaid
+flowchart TD
+    A[进入 Sports 模块] --> B[选择联赛]
+    B --> B1[NFL 美式足球]
+    B --> B2[NBA 篮球]
+    B --> B3[MLB 棒球]
+    B --> B4[NHL 冰球]
+    B1 --> C[选择具体比赛]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+    C --> D{选择投注类型}
+    D --> D1[Spread 点差盘]
+    D --> D2[Total 大小分盘]
+    D --> D3[Moneyline 独赢盘]
+    D1 --> E[查看当前赔率]
+    D2 --> E
+    D3 --> E
+    E --> F[输入投注金额]
+    F --> G[Privy 钱包自动签名]
+    G --> H[Polymarket CLOB 成交]
+    H --> I[持仓记录 等待比赛结束]
+```
+
+#### 2.0.6 提现流程
+
+```mermaid
+flowchart TD
+    A[点击 Withdraw 提现] --> B[输入目标 Polygon 地址]
+    B --> C[输入提现 USDC 金额]
+    C --> D[Privy MPC 钱包自动签名]
+    D --> E[Polygon 链上广播]
+    E --> F[USDC 到账目标地址]
+    F --> G[提现完成]
+    G --> H{目标是什么?}
+    H --> H1[转至 CEX 法币出金]
+    H --> H2[转至其他 DeFi 使用]
+    H --> H3[继续持有 USDC]
+```
+
+#### 2.0.7 结算/领奖流程
+
+```mermaid
+flowchart TD
+    A[持有仓位的市场到期] --> B[Polymarket UMA Oracle 解析]
+    B --> C{结果判定}
+    C -->|持仓方向正确| D[按 1 USDC/份 自动结算]
+    C -->|持仓方向错误| E[仓位归零]
+    D --> F[USDC 返回 Olympusx 账户余额]
+    F --> G[可继续交易或提现]
+    E --> H[损失已投入本金]
+```
+
 ### 2.1 完整用户旅程（实测）
 
 ```mermaid

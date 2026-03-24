@@ -36,6 +36,127 @@ EVplus（evplus.ai）是 **AI 驱动的多平台综合交易终端**，主战场
 
 ## 2. 用户体验路径
 
+### 2.0 注册、入金、交易、提现全流程（详细）
+
+#### 2.0.1 注册流程
+
+```mermaid
+flowchart TD
+    A[访问 evplus.ai] --> B[点击 Launch App]
+    B --> C[app.evplus.ai]
+    C --> D{已有账户?}
+    D -->|否| E[点击 Sign Up]
+    E --> F[输入邮箱 + 密码]
+    F --> G[邮件验证]
+    G --> H[登录进入 Dashboard]
+    D -->|是| H
+    H --> I[连接交易所 API 或钱包]
+    I --> I1[Hyperliquid API Key 配置]
+    I --> I2[Polymarket 私钥配置 Bot上线后]
+    I1 --> J[账户就绪]
+    I2 --> J
+```
+
+#### 2.0.2 入金流程（Hyperliquid 主战场）
+
+```mermaid
+flowchart TD
+    A[进入 EVplus Dashboard] --> B[选择使用模块]
+    B --> B1[EVFarm 资金费率套利]
+    B --> B2[ATV4 自动化交易]
+    B --> B3[Polymarket Bot 上线后]
+    B1 --> C[需要在 Hyperliquid 存入资金]
+    C --> D[访问 Hyperliquid.xyz]
+    D --> E[充值 USDC 至 Hyperliquid]
+    E --> F[EVplus 通过 API 读取余额]
+    F --> G[开始套利操作]
+    B3 --> H[Polymarket Bot 上线后]
+    H --> I[连接 Polymarket 私钥]
+    I --> J[USDC 在 Polygon Proxy Wallet]
+    J --> K[Bot 自动交易]
+```
+
+#### 2.0.3 EVFarm 资金费率套利流程（核心已上线功能）
+
+```mermaid
+flowchart TD
+    A[进入 EVFarm 模块] --> B[选择交易所组合]
+    B --> B1[HyperLiquid]
+    B --> B2[Lighter]
+    B --> B3[Pacifica]
+    B --> B4[Paradex]
+    B --> B5[Extended 6家]
+    B1 --> C[查看各交易所资金费率]
+    C --> D{费率方向判断}
+    D -->|正费率 做空收费| E[在 HyperLiquid 开空]
+    D -->|负费率 做多收费| F[在 HyperLiquid 开多]
+    E --> G[同时在现货做多 Delta 对冲]
+    F --> H[同时在现货做空 Delta 对冲]
+    G --> I[Delta 中性 每8小时收取资金费]
+    H --> I
+    I --> J[EVFarm 自动管理仓位再平衡]
+    J --> K[查看实时收益]
+```
+
+#### 2.0.4 Premium Signals 订阅与使用流程
+
+```mermaid
+flowchart TD
+    A[进入 Premium Signals 模块] --> B[查看当前信号列表]
+    B --> C[每条信号包含]
+    C --> C1[入场价格区间]
+    C --> C2[出场目标价]
+    C --> C3[建议仓位大小]
+    C --> C4[风险评级]
+    C4 --> D{购买信号?}
+    D -->|是| E[支付 USDC 按次付费 x402协议]
+    E --> F[解锁完整信号详情]
+    F --> G[按信号执行交易]
+    G --> H[在 Hyperliquid 手动下单]
+    D -->|否| I[继续浏览免费摘要]
+```
+
+#### 2.0.5 Polymarket Bot 规划流程（Soon 待上线）
+
+```mermaid
+flowchart TD
+    A[Polymarket Bot 上线后] --> B[连接 Polymarket 账户]
+    B --> C[输入 Polymarket API 凭证]
+    C --> D[选择 AI 策略]
+    D --> D1[价值发现 错误定价识别]
+    D --> D2[动量策略 跟随强势方向]
+    D --> D3[跨平台套利 PM vs Kalshi]
+    D1 --> E[配置风险参数]
+    D2 --> E
+    D3 --> E
+    E --> E1[单笔最大金额]
+    E --> E2[日最大亏损限额]
+    E --> E3[目标市场类别]
+    E3 --> F[启动 Bot]
+    F --> G[AI 24/7 扫描 Polymarket]
+    G --> H{发现机会?}
+    H -->|是| I[自动下单 Polymarket CLOB]
+    H -->|否| G
+    I --> J[推送通知用户]
+    J --> K[实时更新持仓和 PnL]
+```
+
+#### 2.0.6 提现流程
+
+```mermaid
+flowchart TD
+    A[套利收益在 Hyperliquid 账户] --> B[登录 Hyperliquid.xyz]
+    B --> C[点击 Withdraw]
+    C --> D[输入提现金额 USDC]
+    D --> E[选择目标链/地址]
+    E --> F[确认提现]
+    F --> G[USDC 到账目标钱包]
+    G --> H{进一步操作}
+    H --> H1[转至 CEX 法币出金]
+    H --> H2[继续 DeFi 使用]
+    H --> H3[继续 EVplus 套利]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid

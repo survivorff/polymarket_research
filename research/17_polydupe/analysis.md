@@ -30,6 +30,126 @@ Polydupe 定位为 **非托管复制交易平台**，口号「Copy the Best. You
 
 ## 2. 用户体验路径（实测）
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册/连接流程（非托管钱包）
+
+```mermaid
+flowchart TD
+    A[访问 polydupe.com] --> B[点击 Sign in]
+    B --> C{已有账户?}
+    C -->|否| D[点击 Create Account]
+    D --> E[输入邮箱]
+    E --> F[邮件验证]
+    F --> G[Polydupe 生成非托管 Polygon 钱包]
+    G --> H[私钥加密存储在浏览器本地]
+    C -->|是| I[邮箱 + 密码登录]
+    H --> J[进入主界面]
+    I --> J
+    J --> K[查看顶级交易者排行榜]
+```
+
+#### 2.0.2 入金流程
+
+```mermaid
+flowchart TD
+    A[进入账户] --> B[点击 Deposit 充值]
+    B --> C{选择入金方式}
+    C --> C1[信用卡/借记卡 法币]
+    C --> C2[银行转账 ACH/Wire]
+    C --> C3[USDC 加密货币直充]
+    C1 --> D[法币 on-ramp 合作方 Transak/MoonPay]
+    D --> E[输入卡号 + KYC 验证]
+    E --> F[USDC 自动到账 Polygon 钱包]
+    C2 --> G[银行 on-ramp 流程]
+    G --> F
+    C3 --> H[复制 Polygon 钱包地址]
+    H --> I[从 CEX 或其他钱包转入 USDC]
+    I --> F
+    F --> J[余额更新 可开始复制交易]
+```
+
+#### 2.0.3 寻找目标交易者流程
+
+```mermaid
+flowchart TD
+    A[进入 Traders 排行榜] --> B[浏览顶级交易者]
+    B --> C[查看关键指标]
+    C --> C1[PnL 总盈亏 如 +22M]
+    C --> C2[Volume 交易量 如 43M]
+    C --> C3[胜率 Win Rate]
+    C --> C4[当前持仓市场]
+    C4 --> D{值得跟随?}
+    D -->|是| E[点击进入交易者详情页]
+    E --> F[查看完整持仓历史]
+    F --> G[分析交易风格和周期]
+    G --> H[点击 Copy 跟单]
+    D -->|否| I[继续浏览其他交易者]
+    B --> J[也可进入 Insiders 模块]
+    J --> K[追踪有信息优势的钱包]
+    K --> H
+```
+
+#### 2.0.4 Conviction-based 跟单配置流程
+
+```mermaid
+flowchart TD
+    A[点击 Copy 跟单按钮] --> B[进入跟单参数配置]
+    B --> C[设置分配资金]
+    C --> D[设置单笔最大跟单额]
+    D --> E[设置最大亏损止损]
+    E --> F[确认开启]
+    F --> G[Polydupe 引擎开始监控]
+    G --> H{目标交易者下单?}
+    H -->|是| I[分析目标持仓占比]
+    I --> J[计算风险暴露比例]
+    J --> K[目标账户 5% = 我账户 5%]
+    K --> L[按相同比例自动下单]
+    L --> M[推送通知]
+    M --> N[Portfolio 更新]
+    H -->|否| G
+```
+
+#### 2.0.5 Live Trades 实时监控流程
+
+```mermaid
+flowchart TD
+    A[进入 Live Trades 页面] --> B[查看全平台实时成交流]
+    B --> C[按交易者/市场筛选]
+    C --> D[发现大额成交]
+    D --> E{判断是否值得跟随}
+    E -->|是| F[点击该交易者 查看详情]
+    F --> G[一键添加跟单]
+    E -->|否| B
+```
+
+#### 2.0.6 提现流程
+
+```mermaid
+flowchart TD
+    A[点击 Withdraw 提现] --> B[输入提现地址 Polygon]
+    B --> C[输入 USDC 金额]
+    C --> D[确认提现]
+    D --> E[非托管钱包本地签名]
+    E --> F[Polygon 链上广播]
+    F --> G[USDC 到账目标地址]
+    G --> H[可随时导出完整私钥]
+```
+
+#### 2.0.7 结算/领奖流程
+
+```mermaid
+flowchart TD
+    A[跟单的市场到期] --> B[Polymarket UMA Oracle 解析]
+    B --> C{持仓方向正确?}
+    C -->|是| D[按 1 USDC/份 自动结算]
+    D --> E[USDC 返回账户余额]
+    E --> F[计算本次盈利]
+    F --> G[扣除盈利的 2.5% 平台费]
+    G --> H[净收益入账 可提现]
+    C -->|否| I[仓位归零 亏损不收费]
+```
+
 ### 2.1 完整用户旅程
 
 ```mermaid

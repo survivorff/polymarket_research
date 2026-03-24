@@ -70,6 +70,96 @@ journey
 
 ---
 
+## 2.0 注册、入金、交易、提现全流程（推断详细）
+
+> ⚠️ 以下流程基于同类平台推断，待真实 URL 确认后校正
+
+#### 2.0.1 注册流程（推断）
+
+```mermaid
+flowchart TD
+    A[访问 Bullpen 真实网址] --> B{已有账户?}
+    B -->|否| C[注册账户]
+    C --> C1[方式一: 邮箱注册]
+    C --> C2[方式二: 连接 MetaMask]
+    C --> C3[方式三: WalletConnect]
+    C1 --> D[邮件验证]
+    D --> E[生成平台钱包]
+    C2 --> E
+    C3 --> E
+    E --> F[完成注册 进入主界面]
+    B -->|是| F
+```
+
+#### 2.0.2 入金流程（推断）
+
+```mermaid
+flowchart TD
+    A[进入账户] --> B[点击 Deposit 充值]
+    B --> C{选择入金方式}
+    C --> C1[信用卡/借记卡 法币]
+    C --> C2[USDC on Polygon 直接转账]
+    C --> C3[其他链跨链桥]
+    C1 --> D1[第三方 on-ramp MoonPay/Transak]
+    D1 --> E[USDC 到账]
+    C2 --> F[复制 Polygon 钱包地址]
+    F --> G[从 CEX 提现 USDC]
+    G --> E
+    C3 --> H[跨链桥自动处理]
+    H --> E
+    E --> I[余额更新 可开始交易]
+```
+
+#### 2.0.3 浏览市场与交易流程（推断）
+
+```mermaid
+flowchart TD
+    A[进入主界面] --> B{功能入口推断}
+    B --> B1[体育预测市场 Sports]
+    B --> B2[新闻/政治市场 News]
+    B --> B3[热门市场 Trending]
+    B1 --> C[选择联赛 NFL/NBA/MLB]
+    C --> D[选择比赛事件]
+    D --> E[查看赔率]
+    E --> F{选择方向}
+    F --> F1[买入 YES]
+    F --> F2[买入 NO]
+    F1 --> G[输入金额]
+    F2 --> G
+    G --> H[预览: 估价/手续费]
+    H --> I[确认下单]
+    I --> J[Polymarket CLOB 执行]
+    J --> K[成交 持仓更新]
+```
+
+#### 2.0.4 提现流程（推断）
+
+```mermaid
+flowchart TD
+    A[点击 Withdraw 提现] --> B[输入提现 Polygon 地址]
+    B --> C[输入 USDC 金额]
+    C --> D[确认提现]
+    D --> E[钱包签名验证]
+    E --> F[Polygon 链上广播]
+    F --> G[USDC 到账目标地址]
+    G --> H[提现完成]
+```
+
+#### 2.0.5 结算/领奖流程（推断）
+
+```mermaid
+flowchart TD
+    A[持有仓位的市场到期] --> B[Polymarket 官方解析结果]
+    B --> C{持仓方向是否正确?}
+    C -->|是| D[系统自动结算]
+    D --> E[USDC 返回账户余额]
+    E --> F[可提现或继续交易]
+    C -->|否| G[仓位归零]
+    G --> H[损失已投入金额]
+```
+
+---
+
 ## 3. 待确认问题（核心）
 
 - [ ] **真实网址是什么？** 在 builders.polymarket.com 排行榜中点击 Bullpen 项目链接

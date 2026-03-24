@@ -40,6 +40,128 @@ Simmer 是「**Prediction Markets for the Agent Economy**」—— 面向 AI Age
 
 ## 2. 用户体验路径（实测）
 
+### 2.0 注册、入金、交易、提现、领奖全流程（详细）
+
+#### 2.0.1 注册流程（AI Agent 开发者）
+
+```mermaid
+flowchart TD
+    A[访问 simmer.markets] --> B[点击 Get Started]
+    B --> C{用户身份}
+    C -->|AI Agent 开发者| D[运行 curl simmer.markets/skill.md]
+    C -->|人类观察者| E[访问 simmer.markets/start]
+    D --> F[获取 SDK 文档]
+    F --> G[pip install simmer-mcp]
+    G --> H[POST /api/sdk/agents/register]
+    H --> I[获得 API Key]
+    I --> J[获得 10000 SIM 虚拟起始余额]
+    J --> K[发送 claim link 给人类操作者]
+    E --> L[浏览 Agent Leaderboard]
+    L --> M[了解 Season 1 机制]
+    M --> N[前往 openclaw.ai 创建 Agent]
+```
+
+#### 2.0.2 入金流程（解锁真实资金交易）
+
+```mermaid
+flowchart TD
+    A[Agent 注册完成 持有 10000 SIM] --> B[Agent 发送 claim link 给人类]
+    B --> C[人类点击 claim link]
+    C --> D[跳转 Simmer 平台]
+    D --> E[登录/注册人类账户]
+    E --> F[关联 Polymarket 账户]
+    F --> G{入金方式}
+    G --> G1[Polymarket 官网入金 USDC on Polygon]
+    G --> G2[信用卡 on-ramp via Polymarket]
+    G1 --> H[USDC 到账 Proxy Wallet]
+    G2 --> H
+    H --> I[解锁真实 USDC 交易模式]
+    I --> J[Agent 可用真实 USDC 交易 Polymarket/Kalshi]
+```
+
+#### 2.0.3 Skills 安装与配置流程
+
+```mermaid
+flowchart TD
+    A[进入 ClawHub Skills 市场] --> B[浏览可用策略]
+    B --> B1[Weather Trader 气象数据]
+    B --> B2[Signal Sniper RSS新闻]
+    B --> B3[Copytrading 鲸鱼跟单]
+    B --> B4[Fast Loop BTC动量]
+    B --> B5[Elon Tweet Trader 推文]
+    B --> B6[AI Divergence 共识偏差]
+    B1 --> C[选择安装 Skill]
+    C --> D[配置策略参数]
+    D --> D1[设置最大单笔金额]
+    D --> D2[设置日亏损上限]
+    D --> D3[设置目标市场类别]
+    D3 --> E[Safety Rails 验证参数]
+    E --> F[Skill 激活]
+    F --> G[Agent 开始自主执行策略]
+```
+
+#### 2.0.4 Agent 自主交易流程
+
+```mermaid
+flowchart TD
+    A[Agent 运行中] --> B[GET /api/sdk/markets 获取市场列表]
+    B --> C[GET /briefing 获取 AI 精选简报]
+    C --> D[Skill 策略分析]
+    D --> E{发现交易机会?}
+    E -->|是| F[Safety Rails 检查]
+    F --> F1{通过护栏?}
+    F1 -->|单笔未超限| G[提交交易 含推理过程]
+    F1 -->|超过限额| H[拒绝 记录原因]
+    G --> I{交易场馆}
+    I --> I1[Polymarket CLOB]
+    I --> I2[Kalshi API]
+    I1 --> J[Polygon 链上成交]
+    I2 --> K[Kalshi 成交]
+    J --> L[Dashboard 更新持仓]
+    K --> L
+    E -->|否| M[继续监控]
+    M --> A
+```
+
+#### 2.0.5 虚拟 SIM 到真实 USDC 升级流程
+
+```mermaid
+flowchart TD
+    A[新 Agent 持有 10000 SIM] --> B[在虚拟环境中测试策略]
+    B --> C[Leaderboard 追踪 SIM 排名]
+    C --> D{策略表现良好?}
+    D -->|是| E[人类操作者 Claim Agent]
+    D -->|否| F[调整策略继续测试]
+    E --> G[充值真实 USDC]
+    G --> H[切换到真实资金模式]
+    H --> I[Agent 用真实 USDC 在 Polymarket/Kalshi 交易]
+```
+
+#### 2.0.6 提现流程
+
+```mermaid
+flowchart TD
+    A[交易盈利 USDC 在 Proxy Wallet] --> B[人类操作者登录 Simmer]
+    B --> C[暂停 Agent 交易]
+    C --> D[通过 Polymarket 官网提现]
+    D --> E[Withdraw 至 Polygon 地址]
+    E --> F[USDC 到账]
+    F --> G[可转至 CEX 法币出金]
+```
+
+#### 2.0.7 Season 结算与奖励领取
+
+```mermaid
+flowchart TD
+    A[Season 1 进行中] --> B[Agent 在 Leaderboard 排名]
+    B --> C[Season 结束]
+    C --> D[统计各 Agent 最终 PnL 排名]
+    D --> E{排名奖励}
+    E -->|Top 排名| F[获得 Season 奖励]
+    F --> G[奖励发放至关联钱包]
+    E -->|未获奖| H[经验积累 下一 Season 继续]
+```
+
 ### 2.1 AI Agent 快速接入流程
 
 ```mermaid

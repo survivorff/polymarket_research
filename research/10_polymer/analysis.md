@@ -72,6 +72,103 @@ journey
 
 ---
 
+## 2.0 注册、入金、交易、提现全流程（推断详细）
+
+> ⚠️ 以下流程基于同类聚合器平台推断，待真实 URL 确认后校正
+
+#### 2.0.1 注册流程（推断：聚合终端型）
+
+```mermaid
+flowchart TD
+    A[访问 Polymer 真实 URL] --> B{连接方式}
+    B --> B1[Magic Link 邮件登录]
+    B --> B2[MetaMask 插件]
+    B --> B3[WalletConnect 扫码]
+    B1 --> C[邮件验证]
+    C --> D[Polymarket 账户关联]
+    B2 --> D
+    B3 --> D
+    D --> E[进入聚合交易界面]
+    E --> F[查看多市场数据视图]
+```
+
+#### 2.0.2 入金流程（推断）
+
+```mermaid
+flowchart TD
+    A[进入账户] --> B[Deposit 入金]
+    B --> C{Polymer 是否有独立入金界面?}
+    C -->|有| D[Polymer 包装入金流程]
+    C -->|无 跳转原生| E[跳转 Polymarket 官网 Deposit]
+    D --> D1[信用卡 on-ramp]
+    D --> D2[USDC on Polygon]
+    E --> E1[Polymarket 原生入金]
+    D1 --> F[USDC 到账 Proxy Wallet]
+    D2 --> F
+    E1 --> F
+    F --> G[Polymer 自动读取余额]
+    G --> H[可开始交易]
+```
+
+#### 2.0.3 聚合交易流程（推断）
+
+```mermaid
+flowchart TD
+    A[进入 Polymer 主界面] --> B[多市场聚合视图]
+    B --> C{筛选市场}
+    C --> C1[按分类筛选 政治/体育/加密]
+    C --> C2[按交易量排序]
+    C --> C3[按价格变化筛选]
+    C1 --> D[查看市场详情]
+    D --> E[多维度数据展示]
+    E --> E1[价格走势]
+    E --> E2[交易量分析]
+    E --> E3[聚合多源数据]
+    E3 --> F[发现交易机会]
+    F --> G{下单}
+    G --> G1[Market Order 市价]
+    G --> G2[Limit Order 限价]
+    G1 --> H[确认 滑点预览]
+    G2 --> H
+    H --> I[钱包签名]
+    I --> J[Polymarket CLOB 执行]
+    J --> K[成交]
+```
+
+#### 2.0.4 持仓管理与提现（推断）
+
+```mermaid
+flowchart TD
+    A[查看 Portfolio 持仓页] --> B[显示所有活跃仓位]
+    B --> C{操作类型}
+    C --> C1[平仓 部分或全部]
+    C --> C2[持有到结算]
+    C1 --> D[提交平仓订单]
+    D --> E[USDC 返回余额]
+    C2 --> F[等待市场 Resolution]
+    F --> G[自动结算 盈利到账]
+    E --> H[提现]
+    G --> H
+    H --> I[输入 Polygon 地址]
+    I --> J[链上广播 USDC 到账]
+```
+
+#### 2.0.5 做市/聚合功能流程（若为聚合器定位，推断）
+
+```mermaid
+flowchart TD
+    A[进入 Polymer 聚合器功能] --> B[选择聚合模式]
+    B --> B1[跨市场价格比对]
+    B --> B2[一键最优价格执行]
+    B --> B3[流动性聚合]
+    B1 --> C[显示各来源最优价]
+    C --> D[选择最优价成交]
+    D --> E[Polymarket CLOB 路由]
+    E --> F[成交回执]  
+```
+
+---
+
 ## 4. 市场地位
 
 ```mermaid
