@@ -23,39 +23,84 @@ Almanac 定位极具创意：**「Accurate Before It's Obvious」（在显而易
 
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径（实测）
+
+### 2.1 完整用户旅程
 
 ```mermaid
-graph TD
-    A[研究/信息优势者] --> B[Almanac Terminal]
-    B --> C{核心机制}
-    
-    C --> D[早期建仓]
-    D --> D1[距 resolution 5个月前]
-    D --> D2[获得额外 Yield 奖励]
-    
-    C --> E[传统建仓]
-    E --> E1[临近 resolution]
-    E --> E2[无额外 Yield]
-    
-    D2 --> F[Yield 路由机制]
-    F --> F1[资金池/协议收益]
-    F --> F2[早期持仓者分配]
-    
-    B --> G[Polymarket CLOB API]
-    G --> H[Polygon 链]
+journey
+    title Almanac 用户完整体验旅程
+    section 了解理念
+      访问 almanac.market 官网: 4: 用户
+      阅读 Problem/Solution/Mechanism: 4: 用户
+      理解早期预测激励逻辑: 3: 用户
+      点击 Enter Terminal: 4: 用户
+    section 注册与入门
+      进入 beta.almanac.market: 4: 用户
+      Create Account 或 Sign In: 4: 用户
+      查看当前 Epoch 奖池: 5: 用户
+      了解 How It Works: 4: 用户
+    section 交易与获益
+      浏览 75 个市场: 5: 用户
+      筛选 Trending/Sports/Crypto/Politics: 4: 用户
+      发现远期市场（31个月后到期）: 4: 用户
+      建立早期仓位: 4: 用户
+      等待 Epoch 结算: 3: 用户
+      赢得交易 → 获得 Epoch 奖励: 5: 用户
+    section 高级使用
+      查看 Leaderboard 排行榜: 4: 用户
+      了解 How It Works 机制: 3: 用户
+      持续建立早期高确信仓位: 4: 用户
 ```
 
-### 2.1 Yield 路由机制推断
+### 2.2 Epoch 奖励机制流程（实测）
+
+```mermaid
+flowchart TD
+    A[用户在当前 Epoch 内交易] --> B[Epoch 长度: 约12小时]
+    B --> C[奖池: $4,938.05 当前实测]
+    C --> D{交易是否盈利?}
+    D -->|是| E[参与本 Epoch 奖励分配]
+    D -->|否| F[无奖励]
+    E --> G[按历史胜率加权分配]
+    G --> H[获得额外 Yield]
+    H --> I[下一个 Epoch 开始]
+    I --> A
+    Note: 早期建仓（距resolution越远）→ 权重越高
+```
+
+### 2.3 建仓时间权重机制
 
 ```mermaid
 flowchart LR
-    A[用户早期建仓] --> B[仓位锁定]
-    B --> C[Almanac 计算时间权重]
-    C --> D[距 resolution 越早 → 权重越高]
-    D --> E[协议收益按权重分配]
-    E --> F[用户获得基础收益 + 时间奖励]
+    A[用户建仓时间] --> B{距 resolution 距离}
+    B -->|31个月| C[时间权重最高]
+    B -->|6个月| D[时间权重高]
+    B -->|1个月| E[时间权重中]
+    B -->|1周| F[时间权重低]
+    C --> G[获得最高额外 Yield]
+    D --> H[获得较高额外 Yield]
+    E --> I[获得基础额外 Yield]
+    F --> J[基本无额外 Yield]
 ```
+
+### 2.4 实测 Terminal 数据（beta.almanac.market）
+
+**当前状态**：
+- Epoch 奖池：**$4,938.05**
+- Epoch 长度：**约 11h 43m**
+- 可用市场：**75 个**
+- 市场分类：Trending / Sports / Esports / Crypto / Politics / Weather
+
+**热门市场样例（距 resolution 最远）**：
+| 市场 | 24h Vol | Total Vol | Liq | 距结算 |
+|------|---------|-----------|-----|-------|
+| Chelsea Clinton 2028 Democratic nomination | 203.5k | 44.0M | 630.6k | **31个月** |
+| LeBron James 2028 US Election | 1.8M | 39.7M | 1.6M | **31个月** |
+| Mike Pence 2028 Republican nomination | 227.4k | 31.1M | 1.2M | **31个月** |
+| Bitcoin reach $150k in March | 1.2M | 22.5M | 2.4M | 7天 |
+
+**关键观察**：31个月远期市场流动性充足（630k-1.6M），说明早期建仓激励已经奏效。
 
 ---
 

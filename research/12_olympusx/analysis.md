@@ -29,50 +29,124 @@ Olympus 定位为 **非托管复制交易 + 手动交易终端**，口号是「A
 
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径
+
+### 2.1 完整用户旅程（实测）
 
 ```mermaid
-graph TD
-    A[用户] --> B[Olympusx Web App]
-    B --> C{功能模块}
-    
-    C --> D[复制交易]
-    C --> E[手动交易]
-    C --> F[市场浏览]
-    C --> G[交易者榜单]
-    
-    D --> D1[选择跟踪地址]
-    D --> D2[设置风险参数]
-    D --> D3[24/7 自动镜像]
-    
-    E --> E1[实时价格图表]
-    E --> E2[实时订单簿]
-    E --> E3[实时成交流]
-    E --> E4[手动下单]
-    
-    B --> H[Privy 非托管钱包]
-    H --> I[Polymarket CLOB API]
-    I --> J[Polygon 链]
+journey
+    title Olympusx 用户完整体验旅程
+    section 入门
+      访问 olympusx.app: 5: 用户
+      查看顶级交易者列表: 5: 用户
+      查看 PnL / 胜率 / 交易量: 4: 用户
+      点击 Copy 按钮: 5: 用户
+      注册 Privy 钱包: 4: 系统
+      充值 USDC: 3: 用户
+    section 复制交易
+      设置风险参数: 4: 用户
+      开启 24/7 自动跟单: 5: 用户
+      收到跟单通知: 4: 系统
+      查看实时 P&L: 5: 用户
+    section 手动交易
+      切换手动交易模式: 4: 用户
+      浏览市场列表: 5: 用户
+      查看实时价格图表: 4: 用户
+      查看 Live Order Book: 4: 用户
+      查看 Live Trade Feed: 4: 用户
+      手动下单: 5: 用户
+    section 专项功能
+      进入 Sports Betting 体育: 5: 用户
+      浏览 NFL/NBA/MLB/NHL: 5: 用户
+      交易点差/总分/独赢: 4: 用户
+      进入 LP Rewards: 3: 用户
+      管理流动性订单: 3: 用户
 ```
 
-### 2.1 Privy 非托管钱包方案
+### 2.2 复制交易设置流程
+
 ```mermaid
-flowchart LR
-    A[用户注册] --> B[Privy 生成嵌入式钱包]
-    B --> C[私钥分片存储]
-    C --> D[用户持有份额]
-    C --> E[Privy HSM 持有份额]
-    D --> F[需双方签名才能操作]
-    F --> G[Polymarket 交易执行]
+flowchart TD
+    A[访问 olympusx.app] --> B[浏览 Traders 排行榜]
+    B --> C[查看交易者详情]
+    C --> C1[PnL 历史图表]
+    C --> C2[胜率 + 交易量]
+    C --> C3[开仓/平仓记录]
+    C --> C4[实时交易活动]
+    C3 --> D{决定跟随?}
+    D -->|是| E[点击 Copy]
+    E --> F{已有账户?}
+    F -->|否| G[Privy 注册]
+    G --> H[生成 MPC 钱包]
+    F -->|是| I[设置跟单参数]
+    H --> I
+    I --> I1[分配跟单资金]
+    I --> I2[设置最大单笔限额]
+    I --> I3[设置止损比例]
+    I3 --> J[开启自动跟单]
+    J --> K[24/7 实时镜像]
+    K --> L{目标交易者下单?}
+    L -->|是| M[自动按比例执行]
+    M --> N[通知用户]
+    L -->|否| K
 ```
-- **Privy** 是以太坊生态知名的嵌入式钱包基础设施
-- 使用 MPC（多方计算）/分片密钥，用户无需管理助记词
-- 相比传统托管（平台持有全部私钥）更安全
-- 相比 MetaMask 类完全自托管更友好（无需插件）
+
+### 2.3 体育预测市场流程（独特功能）
+
+```mermaid
+flowchart TD
+    A[进入 Sports 模块] --> B[选择联赛]
+    B --> B1[NFL 美式足球]
+    B --> B2[NBA 篮球]
+    B --> B3[MLB 棒球]
+    B --> B4[NHL 冰球]
+    B1 --> C[选择比赛]
+    C --> D{选择投注类型}
+    D --> D1[Spread 点差]
+    D --> D2[Total 总分]
+    D --> D3[Moneyline 独赢]
+    D1 --> E[下单 via Polymarket]
+    D2 --> E
+    D3 --> E
+    E --> F[Privy 钱包签名]
+    F --> G[成交]
+```
+
+### 2.4 LP Rewards 流动性提供流程
+
+```mermaid
+flowchart TD
+    A[进入 LP Rewards] --> B[查看激励市场列表]
+    B --> C[选择目标市场]
+    C --> D[在两侧挂流动性单]
+    D --> E[Olympus 统一管理 LP 订单]
+    E --> F{LP 订单状态变化?}
+    F -->|接近成交| G[Webhook 提醒]
+    F -->|已成交| H[Webhook 提醒]
+    G --> I[用户调整策略]
+    H --> J[收取 Maker Rebate]
+```
 
 ---
 
-## 3. 技术架构
+## 3. 业务架构（实测补充）
+
+**实测新发现功能**：
+- **Sports Betting**：NFL/NBA/MLB/NHL 体育预测，Spread/Total/Moneyline 三种类型
+- **LP Rewards**：跨市场流动性管理 + Webhook 提醒
+- **Referral Program**：推荐码系统，USDC 佣金
+- **Trader Profile Pages**：每个钱包有公开 `/trader` 页面，含 PnL 历史、胜率、持仓
+
+**实测顶级交易者数据**：
+| 排名 | 钱包 | PnL | 胜率 |
+|------|------|-----|------|
+| 1 | 0x7c3d...5c6b | +$1.1M | 61.6% |
+| 2 | 0x6ffb...a834 | +$497.9K | 94.2% |
+| 3 | 0x06ec...f845 | +$244.5K | 62.4% |
+
+---
+
+## 4. 技术架构
 
 ```mermaid
 graph LR

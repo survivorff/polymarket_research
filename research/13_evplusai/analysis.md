@@ -2,6 +2,215 @@
 
 > 数据日期：2026-03-24  
 > Polymarket Builder Program 排名：**#13**  
+> 近1月交易量：**$3.61M**  
+> 官网：**evplus.ai** | App：**app.evplus.ai**  
+> ⚠️ **重要更正**：Polymarket Bot 当前标注为「**Soon**」，尚未正式上线
+
+---
+
+## 1. 市场情况
+
+### 1.1 市场定位
+EVplus（evplus.ai）是 **AI 驱动的多平台综合交易终端**，主战场是 **Hyperliquid + DEX 套利 + 资金费率套利**，Polymarket Bot 是其规划中的扩展模块（当前标注 Soon）。
+
+口号：「Trade smarter with AI powered intelligent insights, execution, and risk tools. Built by traders for discretionary and systematic traders.」
+
+### 1.2 真实产品状态（实测确认）
+
+**app.evplus.ai 实测页面内容**：
+
+| 模块 | 状态 | 描述 |
+|------|------|------|
+| Automated Trading (ATV4) | ✅ **Live** | Hyperliquid 自动化交易，HIP-3 资产 + 手动终端 + 热力图 |
+| EVFarm | ✅ **Live** | HyperLiquid/Lighter/Pacifica/Paradex 资金费率套利 |
+| Funding Rates | ✅ **Live** | 6 家交易所资金费率追踪，多空建议 |
+| Premium Signals | ✅ **New** | 套利信号，精确入场/出场/仓位建议，USDC 按次付费 |
+| **Polymarket Bot** | 🚧 **Soon** | AI 驱动 Polymarket 自动化交易（**尚未上线**）|
+
+### 1.3 月交易量来源推测
+- $3.61M 来自 Polymarket，但 Polymarket Bot 标注「Soon」
+- 可能是团队内测账号或早期 beta 用户在使用
+- 或者通过其他接入方式（手动集成）产生了交易量
+
+---
+
+## 2. 用户体验路径
+
+### 2.1 完整用户旅程
+
+```mermaid
+journey
+    title EVplus AI 用户完整体验旅程
+    section 发现与注册
+      访问 evplus.ai 官网: 4: 用户
+      了解 AI 交易功能介绍: 4: 用户
+      点击 Launch App: 4: 用户
+      注册账户: 3: 用户
+    section 核心功能使用
+      查看 Funding Rates 资金费率: 5: 用户
+      发现套利机会: 4: 用户
+      启动 EVFarm 自动套利: 4: 用户
+      配置 ATV4 自动交易参数: 3: 用户
+    section 信号订阅
+      购买 Premium Signals USDC按次: 4: 用户
+      按信号执行套利交易: 4: 用户
+    section Polymarket Bot（规划中）
+      Polymarket Bot 上线后: 3: 用户
+      配置 AI 策略参数: 3: 用户
+      自动执行 Polymarket 交易: 4: 系统
+```
+
+### 2.2 EVFarm 资金费率套利流程
+
+```mermaid
+flowchart TD
+    A[进入 EVFarm] --> B[选择交易所组合]
+    B --> B1[HyperLiquid]
+    B --> B2[Lighter]
+    B --> B3[Pacifica]
+    B --> B4[Paradex]
+    B1 --> C[查看资金费率差异]
+    C --> D{费率方向}
+    D -->|正费率| E[做空 + Delta 对冲]
+    D -->|负费率| F[做多 + Delta 对冲]
+    E --> G[收取资金费 delta中性]
+    F --> G
+    G --> H[EVFarm 自动管理仓位]
+```
+
+### 2.3 Polymarket Bot 规划流程（基于产品描述）
+
+```mermaid
+flowchart TD
+    A[Polymarket Bot 上线] --> B[连接 Polymarket 账户]
+    B --> C[选择 AI 策略]
+    C --> C1[价值发现策略]
+    C --> C2[套利策略]
+    C --> C3[动量策略]
+    C1 --> D[AI 扫描市场定价错误]
+    C2 --> E[跨平台价差检测]
+    D --> F[自动执行交易]
+    E --> F
+    F --> G[实时监控持仓]
+    G --> H[止盈止损自动处理]
+```
+
+---
+
+## 3. 业务架构
+
+```mermaid
+graph TD
+    A[交易者] --> B[EVplus AI Terminal]
+
+    B --> C{核心模块}
+    C --> C1[ATV4 自动交易 ✅]
+    C --> C2[EVFarm 套利 ✅]
+    C --> C3[Funding Rates ✅]
+    C --> C4[Premium Signals ✅]
+    C --> C5[Polymarket Bot 🚧]
+
+    C1 --> D1[Hyperliquid API]
+    C2 --> D1
+    C2 --> D2[Lighter/Pacifica/Paradex]
+    C3 --> D1
+    C4 --> E[USDC 按次付费]
+    C5 --> F[Polymarket CLOB API]
+    F --> G[Polygon 链]
+```
+
+---
+
+## 4. 技术架构
+
+```mermaid
+graph LR
+    subgraph AI层
+        A1[AI 信号模型]
+        A2[资金费率分析]
+        A3[套利检测引擎]
+    end
+
+    subgraph 执行层
+        B1[Hyperliquid API Client]
+        B2[多DEX API Client]
+        B3[Polymarket CLOB Client 规划中]
+    end
+
+    subgraph 用户层
+        C1[app.evplus.ai]
+        C2[ATV4 配置面板]
+        C3[EVFarm 监控]
+    end
+
+    A1 --> B1
+    A2 --> B2
+    A3 --> B1
+    A3 --> B2
+    B1 --> C3
+    B3 --> C1
+```
+
+### 4.1 技术栈（实测推断）
+- **前端**：React（app.evplus.ai）
+- **AI 模型**：未公开，可能是 GPT-4 或自研量化模型
+- **支持协议**：HyperLiquid、Lighter、Pacifica、Paradex、Extended（6家）
+- **付费方式**：Signals 按 USDC 次付费（x402 协议支持）
+
+---
+
+## 5. 核心功能与技术壁垒
+
+### 5.1 壁垒评估（更新后）
+
+| 壁垒类型 | 评分(1-10) | 说明 |
+|---------|-----------|------|
+| 多DEX集成深度 | 8 | 6家交易所实时资金费率，工程量大 |
+| ATV4 自动化 | 7 | Hyperliquid 自动交易已成熟 |
+| Polymarket Bot | 3 | 当前仅 Soon，未上线 |
+| Premium Signals | 7 | 按次付费模型，低摩擦 |
+| AI 能力 | 6 | 实际 AI 深度待验证 |
+| Polymarket 专业度 | 3 | Polymarket 是次要业务 |
+
+---
+
+## 6. 商业模式
+
+```mermaid
+pie title EVplus 收入来源
+    "Premium Signals USDC按次" : 40
+    "Builder Fee 分成" : 25
+    "订阅费" : 25
+    "企业授权" : 10
+```
+
+### 6.1 收入测算
+- Builder Fee：$3.61M × 0.5% ≈ **$18k/月**
+- Premium Signals：按次付费，高频套利用户可能消费显著
+- 主要收入来自 Hyperliquid 用户，Polymarket 是次要来源
+
+---
+
+## 7. 待确认问题
+
+- [ ] **Polymarket Bot 的上线时间表？**（当前 Soon）
+- [ ] $3.61M/月 Polymarket 交易量的来源（Bot 未上线，谁在交易？）
+- [ ] Premium Signals 的具体定价（每次多少 USDC？）
+- [ ] x402 协议是什么？（支付相关）
+- [ ] AI 模型是自研还是调用 OpenAI/Anthropic？
+- [ ] 团队背景？
+
+---
+
+## 8. 总结
+
+EVplus AI 的真实情况与初步调研有重大差异：**Polymarket Bot 尚未上线**，当前产品重心在 Hyperliquid 和 DEX 套利。在 Polymarket Builder 排行榜中出现 $3.61M 交易量，可能来自早期 beta 或手动集成。
+
+作为 Polymarket Builder，EVplus 仍处于早期阶段；但作为 AI 交易终端，其 Hyperliquid 生态的成熟度已相当高。**Polymarket Bot 正式上线后值得重点关注**。
+
+
+> 数据日期：2026-03-24  
+> Polymarket Builder Program 排名：**#13**  
 > 近1月交易量：**$3.61M**
 
 ---

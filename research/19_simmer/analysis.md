@@ -2,72 +2,147 @@
 
 > 数据日期：2026-03-24  
 > Polymarket Builder Program 排名：**#19**  
-> 近1月交易量：**$2.66M**
+> 近1月交易量：**$2.66M**  
+> 官网：**simmer.markets** | Docs：**docs.simmer.markets**
 
 ---
 
 ## 1. 市场情况
 
-### 1.1 市场定位
-Simmer Markets 的定位极为独特：**「Prediction Markets for AI Agents」（面向 AI Agent 的预测市场）**。这不是一个面向人类交易者的工具，而是专为 AI Agent 设计的预测市场基础设施。口号：「Season 1」暗示游戏化机制。
+### 1.1 市场定位（实测确认）
+Simmer 是「**Prediction Markets for the Agent Economy**」—— 面向 AI Agent 的预测市场基础设施。核心口号：
 
-### 1.2 市场规模与地位
-- Builder Program 排名 **第十九**，月交易量 $2.66M
-- 定位最前沿，是 Builder 生态中**唯一专注 AI Agent 交易**的平台
-- 界面极简，有 Markets / Skills / Agents / Dashboard 四个核心模块
-- 状态显示：「OPERATIONAL」，Season 1 进行中
+> Where AI agents trade Polymarket, Kalshi and compete for profit. Humans welcome to observe.
 
-### 1.3 竞争格局
-- **无直接竞争者**：AI Agent 预测市场是全新赛道
-- 与 Polymarket 官方 `agents` 仓库（2620 stars）方向一致
-- 代表了预测市场的**下一个进化方向**
+**支持平台**：同时接入 **Polymarket** 和 **Kalshi**（不只是 Polymarket）。
+
+**GitHub**：`SpartanLabsXyz/simmer-sdk`（37 stars）
+
+### 1.2 关键产品特性（实测）
+
+| 特性 | 详情 |
+|------|------|
+| **自托管钱包** | 私钥在本地签名，永不离开用户设备 |
+| **安全护栏** | 单笔限额、日额度上限、止损/止盈、急停开关 |
+| **智能上下文** | 询问「我该交易这个吗？」获得仓位感知建议 |
+| **多场馆** | 虚拟 $SIM 纸面交易 → 真实 USDC (Polymarket) / USD (Kalshi) |
+| **Skills 生态** | ClawHub 上的预构建策略，可安装和发布 |
+| **Python SDK** | `pip install simmer-mcp`，5分钟接入 |
+| **MCP 工具** | 支持 AI Agent 通过 MCP 协议调用 |
+
+### 1.3 Season 1 机制
+- **状态**：OPERATIONAL
+- **$SIM**：虚拟代币，新注册 Agent 获得 10,000 $SIM 起始余额
+- **Leaderboard**：Agent 竞争排行榜
+- **Claim 机制**：Agent 注册后发送 claim link 给人类操作者解锁真实资金交易
 
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径（实测）
+
+### 2.1 AI Agent 快速接入流程
+
+```mermaid
+sequenceDiagram
+    participant Dev as 开发者/AI Agent
+    participant Simmer as Simmer API
+    participant Human as 人类操作者
+    participant PM as Polymarket/Kalshi
+
+    Dev->>Simmer: POST /api/sdk/agents/register
+    Simmer-->>Dev: API key + 10,000 $SIM
+    Dev->>Human: 发送 claim link
+    Human->>Simmer: 点击 claim，解锁真实资金
+    Dev->>Simmer: GET /api/sdk/markets 浏览市场
+    Simmer-->>Dev: 市场列表 + AI 简报
+    Dev->>Simmer: 提交交易（含推理过程）
+    Simmer->>PM: 执行订单
+    PM-->>Simmer: 成交回执
+    Simmer-->>Dev: 更新持仓
+```
+
+### 2.2 人类用户使用流程
+
+```mermaid
+journey
+    title Simmer 人类用户体验旅程
+    section 入门
+      访问 simmer.markets/start: 4: 用户
+      选择 Im a Human: 4: 用户
+      了解 Agent Economy 概念: 3: 用户
+      观察 AI Agent 交易: 4: 用户
+    section 创建 Agent
+      前往 openclaw.ai 创建 Agent: 3: 用户
+      运行 curl simmer.markets/skill.md: 3: 用户
+      获得 10000 SIM 起始余额: 4: 用户
+      Claim Agent 解锁真实资金: 4: 用户
+    section Skills 配置
+      进入 Skills/ClawHub: 4: 用户
+      安装预构建策略: 4: 用户
+      自定义策略参数: 3: 用户
+      Agent 开始自主交易: 5: 系统
+    section 监控
+      查看 Dashboard: 4: 用户
+      追踪 Agent 交易表现: 4: 用户
+      查看 Leaderboard 排名: 4: 用户
+```
+
+### 2.3 ClawHub Skills 生态（实测完整列表）
 
 ```mermaid
 graph TD
-    subgraph AI Agent 层
-        A1[AI Agent]
-        A2[Agent Skills]
-        A3[Agent Wallet]
-    end
-    
-    subgraph Simmer 平台
-        B1[Markets 市场]
-        B2[Skills 技能市场]
-        B3[Agents 管理]
-        B4[Dashboard 仪表盘]
-    end
-    
-    subgraph 底层
-        C1[Polymarket CLOB API]
-        C2[Polygon 链]
-    end
-    
-    A1 -->|自主决策| B1
-    A2 -->|技能调用| B1
-    A1 --> B3
-    A3 --> C1
-    C1 --> C2
-    B2 --> A1
+    A[ClawHub Skills 市场] --> B[气象类]
+    A --> C[跟单类]
+    A --> D[信号类]
+    A --> E[数据分析类]
+    A --> F[AI 套利类]
+    A --> G[动量类]
+    A --> H[社媒类]
+
+    B --> B1[🌡️ Polymarket Weather Trader\nNOAA 气象数据自动交易]
+    C --> C1[🐋 Polymarket Copytrading\n大户钱包信号聚合跟单]
+    D --> D1[🎯 Signal Sniper\nRSS Feed 突发新闻交易]
+    E --> E1[📓 Prediction Trade Journal\n自动记录+月度校准报告]
+    F --> F1[🔮 AI Divergence\nSimmer AI 共识 vs Polymarket 价差]
+    G --> G1[⏱️ Mert Sniper\n近到期市场抢单]
+    G --> G2[⚡ Polymarket Fast Loop\nBTC 5/15分钟动量套利]
+    H --> H1[🐦 Elon Tweet Trader\nXTracker 推文数据交易]
 ```
 
-### 2.1 核心概念推断
+**Skills 安装命令**：
+```bash
+# 获取 Skills 文档
+curl -sL https://simmer.markets/skill.md
 
-| 模块 | 推断功能 |
-|------|----------|
-| **Markets** | Polymarket 市场列表，供 Agent 选择交易 |
-| **Skills** | Agent 可调用的交易技能/策略模块 |
-| **Agents** | 创建和管理 AI Agent，设置其交易策略 |
-| **Dashboard** | 监控 Agent 交易表现和仓位 |
-| **Season 1** | 游戏化竞赛机制，Agent 之间竞争收益 |
+# 安装 Python SDK
+pip install simmer-mcp
+```
 
-### 2.2 「Skills」概念
-- Skills 可能是模块化的交易策略/分析能力
-- Agent 可以装备不同 Skills（如：新闻分析 Skill、技术分析 Skill、套利 Skill）
-- 可能有 Skills 市场，开发者可以发布和销售 Skills
+### 2.4 Skills 工作流程
+
+```mermaid
+flowchart TD
+    A[Agent 安装 Skill] --> B[配置参数]
+    B --> C{Skill 类型}
+    C --> |Weather Trader| D[抓取 NOAA 气象数据]
+    C --> |Signal Sniper| E[监控 RSS Feed]
+    C --> |Copytrading| F[监控鲸鱼钱包]
+    C --> |Fast Loop| G[抓取 Binance 动量]
+    D --> H[比对气温预测 vs 市场价格]
+    E --> I[解析新闻事件]
+    F --> J[聚合多钱包信号]
+    G --> K[检测动量 vs 市场偏差]
+    H --> L[发现交易机会]
+    I --> L
+    J --> L
+    K --> L
+    L --> M[Simmer Safety Rails 检查]
+    M --> N{通过护栏?}
+    N --> |是| O[执行交易 Polymarket/Kalshi]
+    N --> |否| P[拒绝，记录原因]
+    O --> Q[更新 Dashboard]
+    P --> Q
+```
 
 ---
 
@@ -75,63 +150,97 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph Agent 运行时
-        R1[Agent 决策引擎]
-        R2[LLM/AI 模型]
-        R3[技能调用层]
+    subgraph Agent 层
+        A1[Python AI Agent]
+        A2[LLM OpenAI/Claude]
+        A3[simmer-sdk / MCP]
     end
-    
-    subgraph Simmer API
-        S1[市场数据 API]
-        S2[Agent 注册/管理]
-        S3[Skills 注册表]
+
+    subgraph Simmer 平台
+        B1[REST API]
+        B2[Safety Rails 引擎]
+        B3[Smart Context 引擎]
+        B4[ClawHub Skills 注册表]
+        B5[虚拟 SIM 环境]
     end
-    
-    subgraph 外部数据
-        E1[新闻/事件数据]
-        E2[链上数据]
-        E3[市场历史数据]
+
+    subgraph 交易场馆
+        C1[Polymarket CLOB]
+        C2[Kalshi API]
+        C3[Polygon 链]
     end
-    
-    subgraph 执行
-        X1[Polymarket CLOB]
-        X2[钱包签名]
+
+    subgraph 数据源
+        D1[NOAA 气象 API]
+        D2[RSS Feed]
+        D3[XTracker 推文数据]
+        D4[Binance 价格数据]
+        D5[链上鲸鱼监控]
     end
-    
-    R2 --> R1
-    R3 --> R1
-    S3 --> R3
-    E1 --> R2
-    E2 --> R2
-    E3 --> R2
-    S1 --> R1
-    R1 --> X2
-    X2 --> X1
+
+    A1 --> A3
+    A2 --> A1
+    A3 --> B1
+    B1 --> B2
+    B2 --> B3
+    B3 --> C1
+    B3 --> C2
+    B4 --> A1
+    D1 --> B4
+    D2 --> B4
+    D3 --> B4
+    D4 --> B4
+    D5 --> B4
+    C1 --> C3
+```
+
+### 3.1 API 端点（文档确认）
+
+```
+POST /api/sdk/agents/register   → 注册 Agent，获取 API key + 10,000 $SIM
+GET  /api/sdk/markets           → 浏览市场列表
+GET  /briefing                  → AI 精选市场简报
+```
+
+### 3.2 自托管钱包机制
+```mermaid
+flowchart LR
+    A[Agent 本地私钥] --> B[本地签名]
+    B --> C[签名后交易] --> D[Simmer API]
+    D --> E[Polymarket/Kalshi]
+    Note: 私钥永不上传到 Simmer 服务器
 ```
 
 ---
 
 ## 4. 核心功能与技术壁垒
 
-### 4.1 「Agent Economy」的壁垒
-- 如果 Skills 市场成立，形成**平台效应**：更多开发者 → 更多 Skills → 更好的 Agent → 更多用户
-- Season 制度创造竞争和参与激励
-- **先发优势极强**：AI Agent 交易基础设施一旦建立生态，极难被替代
+### 4.1 ClawHub 平台效应
+- Skills 市场形成**双边平台**：Strategy 开发者 ↔ Agent 用户
+- Skills 可「remix」（基于已有 Skill 修改），降低创建门槛
+- 开发者发布 Skill → Agent 安装 → Simmer 抽成
+- **壁垒**：Skills 生态一旦丰富，难以被单一竞争者复制
 
-### 4.2 技术门槛
-- 需要稳定的 Agent 运行时环境
-- LLM API 集成（OpenAI/Anthropic）
-- 可靠的链上执行和钱包管理
+### 4.2 Polymarket + Kalshi 双平台
+- 唯一同时接入两大预测市场的 Builder
+- 跨平台套利成为可能（AI Divergence Skill 已实现）
+- **壁垒**：双平台集成的工程复杂度高
 
-### 4.3 技术壁垒评估
+### 4.3 Safety Rails 差异化
+- 单笔限额 + 日上限 + 止损/止盈 + 急停开关
+- 对机构和 DAO 管理 AI Agent 资金至关重要
+- **壁垒**：完善的风控体系是信任基础
+
+### 4.4 技术壁垒评估
 
 | 壁垒类型 | 评分(1-10) | 说明 |
 |---------|-----------|------|
+| Skills/ClawHub 生态 | 8 | 平台网络效应一旦形成极强 |
+| 双平台接入 | 8 | Polymarket + Kalshi，技术工程量大 |
+| 自托管安全 | 9 | 私钥本地，机构级安全标准 |
+| Safety Rails | 8 | 完善风控是 Agent 资金管理必需 |
 | 先发优势 | 9 | AI Agent 预测市场的先行者 |
-| 平台网络效应 | 8 | Skills 生态一旦形成极难复制 |
-| 技术前沿性 | 9 | 站在 AI+DeFi 最前沿 |
-| 当前规模 | 4 | 仍处早期，$2.66M/月 |
-| 执行风险 | 高 | AI Agent 交易是新领域，监管不确定 |
+| 当前规模 | 4 | $2.66M/月，仍处早期 |
 
 ---
 
@@ -139,30 +248,65 @@ graph LR
 
 ```mermaid
 pie title Simmer 收入来源推测
-    "Builder Fee 分成" : 30
+    "Builder Fee 分成" : 25
     "Skills 市场抽成" : 30
-    "Agent 订阅/许可" : 25
-    "Season 参与费" : 15
+    "Agent 订阅/API 费" : 30
+    "Season 参与激励" : 15
 ```
 
 ### 5.1 收入测算
-- 当前：$2.66M × 0.5% ≈ **$13.3k/月** Builder Fee
-- 潜在：Skills 市场抽成 + Agent 订阅费（未来可能是主要收入）
+- Builder Fee：$2.66M × 0.5% ≈ **$13.3k/月**
+- ClawHub Skills 抽成：每个 Skill 安装/使用可能收费
+- Agent API 调用费：高频 Agent 产生 API 调用量
+- Season 竞赛：可能有参赛费或奖池提成
+
+### 5.2 Skills 经济模型推断
+
+```mermaid
+flowchart LR
+    A[Strategy 开发者] -->|发布 Skill| B[ClawHub]
+    B -->|安装| C[AI Agent 用户]
+    C -->|产生收益| D[分成]
+    D -->|70%| A
+    D -->|30%| E[Simmer 平台]
+```
 
 ---
 
-## 6. 待确认问题
+## 6. 与竞争对手对比
 
-- [ ] Skills 具体是什么？如何创建和使用？
-- [ ] Season 1 的规则和奖励机制？
-- [ ] Agent 使用的是什么 LLM？
-- [ ] 是否开源？GitHub 仓库？
-- [ ] 团队背景（docs 链接：simmer.markets/docs）？
-- [ ] 「IMPORT」功能是什么？（导入现有 Agent？）
-- [ ] 与 Polymarket 官方 agents 仓库有何关系？
+| 对比维度 | Simmer | Olympusx | Polydupe | EVplus |
+|---------|--------|----------|---------|--------|
+| 目标用户 | AI Agent + 开发者 | 人类交易者 | 人类交易者 | 专业交易者 |
+| 平台支持 | Polymarket + Kalshi | Polymarket | Polymarket | Hyperliquid + PM |
+| 策略来源 | ClawHub Skills 市场 | 跟随真人交易者 | 跟随真人交易者 | AI 信号 |
+| 自动化程度 | 全自动 (Agent) | 半自动 | 半自动 | 半自动 |
+| 编程要求 | 低 (SDK/MCP) | 无 | 无 | 无 |
+| 安全模型 | 自托管私钥 | Privy MPC | 非托管 | 未知 |
 
 ---
 
-## 7. 总结
+## 7. 待确认问题
 
-Simmer Markets 是整个 Builder 生态中**最具前瞻性**的项目，代表了预测市场与 AI Agent 经济的融合趋势。当前 $2.66M/月（#19）仍处早期，但其「Prediction Markets for AI Agents」定位如果成立，未来潜力巨大。这是**最值得长期跟踪的 Builder 项目之一**。
+- [ ] ClawHub 的具体分成比例？
+- [ ] Season 1 的结束时间和奖励规则？
+- [ ] $SIM 代币是否会转换为真实代币？
+- [ ] openclaw.ai 的关系（创建 Agent 的工具）？
+- [ ] 是否支持自定义 AI 模型（非 OpenAI）？
+- [ ] 日均 Agent 数量和真实交易 Agent 数量？
+- [ ] SpartanLabsXyz 团队背景？
+
+---
+
+## 8. 总结
+
+Simmer 是整个 Builder 生态中**最具前沿性和平台潜力**的项目，实测核心数据：
+
+1. **双平台**：Polymarket + Kalshi 同时接入，唯一做到这一点的 Builder
+2. **ClawHub Skills 生态**：8+ 预构建策略，涵盖气象、新闻、跟单、动量、套利
+3. **完整 SDK**：Python SDK + MCP 工具 + REST API，开发者友好
+4. **自托管安全**：私钥本地签名，机构级安全标准
+5. **Safety Rails**：完善风控保护 Agent 资金
+6. **Season 机制**：虚拟 $SIM → 真实 USDC 渐进式上手
+
+当前 $2.66M/月（#19）仍处早期，但如果 AI Agent 经济起飞，Simmer 极可能成为**预测市场 Agent 基础设施的事实标准**。

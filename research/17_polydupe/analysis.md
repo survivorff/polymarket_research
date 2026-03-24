@@ -28,7 +28,103 @@ Polydupe 定位为 **非托管复制交易平台**，口号「Copy the Best. You
 
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径（实测）
+
+### 2.1 完整用户旅程
+
+```mermaid
+journey
+    title Polydupe 用户完整体验旅程
+    section 发现与入门
+      访问 polydupe.com: 5: 用户
+      看到 Conviction-based 复制理念: 5: 用户
+      查看顶级交易者排行榜: 5: 用户
+      查看 PnL/Volume 数据: 4: 用户
+      点击 Sign in: 4: 用户
+      创建非托管钱包: 4: 系统
+    section 充值与配置
+      用信用卡/银行/加密货币充值: 4: 用户
+      浏览 Traders 排行榜: 5: 用户
+      查看具体交易者的持仓和记录: 4: 用户
+      点击复制: 5: 用户
+      确认风险暴露比例设置: 4: 用户
+    section 运行阶段
+      实时镜像目标交易: 5: 系统
+      查看 Live Trades 实时成交流: 4: 用户
+      盈利后扣除 2.5% 费用: 3: 系统
+      导出钱包或随时暂停: 5: 用户
+    section 高级功能
+      进入 Insiders 追踪内部人士: 4: 用户
+      使用 Data API: 3: 用户
+      推荐好友获 30% 佣金: 4: 用户
+```
+
+### 2.2 注册与充值流程
+
+```mermaid
+flowchart TD
+    A[访问 polydupe.com] --> B[点击 Sign in]
+    B --> C[创建账户]
+    C --> D[Polydupe 生成非托管 Polymarket 钱包]
+    D --> E[选择充值方式]
+    E --> E1[信用卡/借记卡]
+    E --> E2[银行转账]
+    E --> E3[加密货币 USDC]
+    E1 --> F[法币 on-ramp 合作方]
+    E2 --> F
+    E3 --> G[直接充值]
+    F --> H[USDC 到账]
+    G --> H
+    H --> I[开始使用]
+```
+
+### 2.3 Conviction-based 复制流程（核心机制）
+
+```mermaid
+sequenceDiagram
+    participant T as 目标交易者 $500k 账户
+    participant PM as Polymarket
+    participant PD as Polydupe 引擎
+    participant U as 用户 $5k 账户
+
+    T->>PM: 买入 YES $25,000（占账户 5%）
+    PM-->>PD: 检测到交易
+    PD->>PD: 计算风险暴露比例 = 5%
+    PD->>PD: 用户账户 $5k × 5% = $250
+    PD->>U: 自动买入 YES $250
+    Note over PD,U: 相同的相对风险暴露，不同绝对金额
+    PM-->>PD: 成交回执
+    PD->>U: 推送通知
+```
+
+### 2.4 Insiders 功能流程
+
+```mermaid
+flowchart TD
+    A[进入 Insiders 模块] --> B[查看被标记为 Insider 的钱包]
+    B --> C{内部人士类型}
+    C --> C1[媒体从业者关联地址]
+    C --> C2[行业高管关联地址]
+    C --> C3[高胜率专家地址]
+    C1 --> D[查看其持仓方向]
+    D --> E[分析信息优势]
+    E --> F{选择跟随?}
+    F -->|是| G[一键复制]
+    F -->|否| H[继续观察]
+```
+
+### 2.5 实测真实数据（polydupe.com 首页）
+
+**顶级交易者排行榜**：
+| 排名 | 名称 | 钱包 | PNL | VOLUME |
+|------|------|------|-----|--------|
+| 1 | Theo4 | 0x5668...5839 | **+$22.05M** | $43.01M |
+| 2 | Fredi9999 | 0x1f2d...d0cf | **+$16.62M** | $76.61M |
+| 3 | kch123 | 0x6a72...33ee | **+$11.22M** | $258.90M |
+
+---
+
+## 3. 业务架构
 
 ```mermaid
 graph TD
