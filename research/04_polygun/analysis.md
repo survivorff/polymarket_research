@@ -167,3 +167,164 @@ graph TD
     D2 --> G[Polymarket CLOB API]
     G --> H[Polygon 链上执行]
 ```
+
+---
+
+## 4. 技术架构
+
+```mermaid
+graph LR
+    subgraph Telegram层
+        T1[Telegram Bot API]
+        T2[内联按钮 InlineKeyboard]
+        T3[Slash Command 处理器]
+    end
+
+    subgraph 业务层
+        B1[托管钱包生成系统]
+        B2[跨链桥模块]
+        B3[复制交易引擎]
+        B4[限价单监控]
+        B5[PnL 计算器 + 图卡生成]
+        B6[推荐追踪系统]
+        B7[Smart Wallets 评分引擎]
+    end
+
+    subgraph 链上层
+        C1[Polymarket CLOB API]
+        C2[Polygon RPC 节点]
+        C3[跨链桥协议 Stargate/Wormhole]
+        C4[USDC 合约]
+    end
+
+    T1 --> T3
+    T2 --> B3
+    T3 --> B1
+    T3 --> B2
+    T3 --> B3
+    T3 --> B4
+    B1 --> C2
+    B2 --> C3
+    B3 --> C1
+    B4 --> C1
+    C1 --> C2
+    B5 --> C2
+    B7 --> C1
+```
+
+### 4.1 托管钱包架构
+
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant TG as Telegram
+    participant PG as Polygun 服务端
+    participant W as 托管钱包
+    participant BR as 跨链桥
+    participant PM as Polymarket
+
+    U->>TG: /start
+    TG->>PG: 新用户
+    PG->>W: 生成专属 Proxy Wallet（私钥加密存储于服务端）
+    W-->>PG: 钱包地址
+    PG->>TG: 展示充值地址（4链可选）
+    U->>W: 从任意链充值
+    W->>BR: 自动跨链桥至 Polygon USDC
+    BR-->>W: Polygon USDC 到账
+    PG->>TG: 余额到账通知
+    U->>TG: 点击 Buy YES
+    PG->>PM: 代理签名提交订单
+    PM-->>PG: 成交回执
+    PG->>TG: 推送成交通知 + 实时 P&L
+```
+
+### 4.2 技术栈推断
+- **Bot 框架**：Python-telegram-bot 或 Telegraf (Node.js)
+- **钱包生成**：ethers.js，私钥服务端加密存储（AES-256 或 KMS）
+- **跨链桥**：Stargate Finance / LayerZero（支持 4 链）
+- **API**：Polymarket CLOB REST + WebSocket
+- **Smart Wallets 评分**：链上历史数据 + 胜率/盈利率加权算法
+- **PnL 卡片生成**：Canvas API 或 puppeteer 截图
+
+---
+
+## 5. 核心功能与交易技术壁垒
+
+### 5.1 功能清单（基于 Polymarket 官方 Builder 数据）
+
+| 功能 | 描述 | 技术实现 |
+|------|------|----------|
+| 即时买卖 | Telegram 内一键执行 | 托管签名 + CLOB API |
+| 复制交易 | 跟随 Smart Wallets 自动镜像 | WebSocket 监听 + 延迟执行 |
+| 限价单 | 设定目标价格自动执行 | 后端轮询市场价格 |
+| 多链入金 | Polygon/SOL/ETH/BNB → 自动桥 | 跨链桥协议集成 |
+| PnL 卡片 | 可分享的收益图卡 | Canvas/截图生成 |
+| 推荐系统 | 邀请返佣 | 链上追踪 + 分成计算 |
+| 持仓管理 | 查看所有持仓和历史 | CLOB API + 链上同步 |
+
+### 5.2 技术壁垒评估
+
+| 壁垒类型 | 评分(1-10) | 说明 |
+|---------|-----------|------|
+| Telegram 渠道 | 8 | 用户习惯迁移成本高，Bot 使用习惯难改变 |
+| 跨链桥集成 | 7 | 4 链自动桥接，技术门槛较高 |
+| 病毒增长机制 | 8 | PnL 卡片 + 推荐分佣，形成强增长飞轮 |
+| Smart Wallets 数据 | 6 | 评分积累有壁垒，但算法可复制 |
+| 100+ 项目合作 | 7 | 合作渠道网络形成分发壁垒 |
+| 托管安全风险 | -2 | 私钥托管于服务端，信任成本高 |
+
+---
+
+## 6. 商业模式
+
+```mermaid
+pie title Polygun 收入来源
+    "1% 全交易量手续费" : 70
+    "Builder Fee 分成" : 20
+    "推荐佣金净收入" : 10
+```
+
+### 6.1 收入测算
+- 月交易量 $27.44M × 1% = **$274k/月** 手续费收入
+- 同时叠加 Builder Fee 分成（Polymarket 给的约 0.5%）
+- 实际毛利需扣除：跨链桥 gas 费、服务器、推荐佣金支出
+
+### 6.2 与 PolyCop 商业模式对比
+
+| 维度 | Polygun | PolyCop |
+|------|---------|--------|
+| 收费模式 | 1% 全交易量（含亏损）| 0.05% 仅盈利 |
+| 用户体感 | 固定成本，可预期 | 与用户利益对齐 |
+| 月收入（测算）| ~$274k | ~$16k + Builder Fee |
+| 信任模型 | 服务端托管私钥 | 浏览器内存，零服务端 |
+| 门槛 | 极低（Telegram 直接用）| 需自备 Polygon USDC |
+
+---
+
+## 7. 待确认问题
+
+- [ ] Polygun 当前真实网址（所有已知域名均失效，产品是否已停止运营？）
+- [ ] 私钥保管方式（服务端加密存储 vs MPC vs TEE？）
+- [ ] 跨链桥使用的具体协议（Stargate / Wormhole / 自建？）
+- [ ] Smart Wallets 评分算法的具体指标和权重？
+- [ ] 100+ 合作项目具体是哪些？合作方式？
+- [ ] PnL 卡片生成技术实现？
+- [ ] 限价单实现：后端轮询 vs WebSocket 监听？
+- [ ] 团队规模和地理位置？
+- [ ] 日活用户数量？
+- [ ] 网站下线原因？产品是否仍在运营？
+
+---
+
+## 8. 总结
+
+Polygun 是 Telegram Bot 赛道的标杆，成功复制了 Solana Meme 币 Bot（如 Photon、Trojan）的打法：
+
+1. **极低门槛**：多链入金 + Telegram 原生，无需任何 Web3 知识
+2. **病毒增长**：PnL 卡片 + 推荐分佣，形成强大增长飞轮
+3. **复制交易**：内置 Smart Wallets 榜单，降低研究门槛
+4. **1% 费率**：透明收费，用户为便利性买单
+
+月交易量 $27.44M（#4），是 Telegram 渠道的绝对第一。
+
+⚠️ **风险**：网站全部域名失效，产品状态不明。若已停止运营，则排行榜数据为历史数据。托管式私钥是核心信任风险点。

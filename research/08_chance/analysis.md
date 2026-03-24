@@ -33,6 +33,79 @@
 - **费率**：Treasury Fee 3%
 
 ### 2.2 玩法机制
+
+```mermaid
+flowchart TD
+    A[用户访问 app.chance.markets] --> B[Connect Wallet]
+    B --> C[接受 Beta 条款]
+    C --> D[选择市场 AVAX/USD 或其他]
+    D --> E{当前轮次状态}
+    E -->|Entry 开放中| F[选择方向]
+    F --> F1[UP 看涨]
+    F --> F2[DOWN 看跌]
+    F1 --> G[输入金额 AVAX]
+    F2 --> G
+    G --> H[确认下注]
+    H --> I[锁仓等待 In-Progress 阶段]
+    I --> J[12小时后 Chainlink 报价]
+    J --> K{Closed Price vs Locked Price}
+    K -->|上涨| L[UP 获胜者瓜分奖池]
+    K -->|下跌| M[DOWN 获胜者瓜分奖池]
+    L --> N[奖池 × 97% ÷ UP总额 = 赔率]
+    M --> N
+    N --> O[随时领取奖励 无时限]
+```
+
+**赔率计算**：
+- UP 赔率 = 总奖池 ÷ UP 总仓位
+- DOWN 赔率 = 总奖池 ÷ DOWN 总仓位
+- 例：DOWN 池 15 AVAX，总池 150 AVAX → DOWN 赔率 10x
+- Treasury Fee 3%，固定收取
+
+### 2.3 用户完整旅程
+
+```mermaid
+journey
+    title Chance Markets 用户完整体验旅程
+    section 入门
+      访问 app.chance.markets: 4: 用户
+      连接 Avalanche 钱包: 3: 用户
+      阅读并接受 Beta 免责声明: 3: 用户
+      查看当前轮次状态: 5: 用户
+    section 预测交易
+      选择市场 AVAX/USD: 5: 用户
+      查看当前 UP/DOWN 池大小: 4: 用户
+      分析赔率比例: 4: 用户
+      选择 UP 或 DOWN: 5: 用户
+      输入 AVAX 金额下注: 4: 用户
+      等待 12 小时结算: 2: 用户
+    section 生态参与
+      查看 Leaderboard 排名: 4: 用户
+      购买 $predict 代币: 3: 用户
+      铸造 .chance 域名 NFT: 3: 用户
+      设置域名为 Active 显示在排行榜: 4: 用户
+    section 领取奖励
+      结算后查看 Account Summary: 5: 用户
+      一键领取所有未领奖励: 5: 用户
+      无时限领取 永不过期: 5: 系统
+```
+
+### 2.4 .chance 域名铸造流程
+
+```mermaid
+flowchart TD
+    A[用户想要 .chance 域名] --> B[确保持有 $predict 代币]
+    B --> C[访问域名铸造页面]
+    C --> D[输入想要的用户名]
+    D --> E[支付 2000 $predict 固定费用]
+    E --> F[NFT 域名铸造到钱包]
+    F --> G{设置为 Active?}
+    G -->|是| H[Profile 和 Leaderboard 显示该域名]
+    G -->|否| I[保留在钱包，不显示]
+    H --> J[在社区中建立身份认同]
+```
+
+### 2.5 生态系统
 ```mermaid
 flowchart TD
     A[用户] --> B{预测 AVAX/USD}

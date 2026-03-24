@@ -22,9 +22,103 @@ Stand（Beta）是一个功能**极为丰富的综合性 Polymarket 交易前端
 - 与 Polymtrade 同属专业 Web 终端，但功能更多（Copy Trade、Calendar、Pulse、Octobox）
 - **Octobox** 功能名称独特，是其他 Builder 没有的模块
 
+### 1.4 真实导航链接（实测）
+
+| 模块 | 真实 URL |
+|------|----------|
+| Discover | https://www.stand.trade/discover |
+| Live Feeds | https://www.stand.trade/live-feeds |
+| Copy Trade | https://www.stand.trade/copytrade |
+| Calendar | https://www.stand.trade/calendar |
+| Pulse | https://www.stand.trade/pulse |
+| Octobox | https://www.stand.trade/octobox |
+
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径
+
+### 2.1 完整用户旅程
+
+```mermaid
+journey
+    title Stand.trade 用户完整体验旅程
+    section 发现入门
+      访问 stand.trade: 4: 用户
+      看到 March Madness 运营横幅: 5: 用户
+      浏览 Trending 市场列表: 5: 用户
+      查看市场 Vol/24h/Liq/End 数据: 4: 用户
+    section 深度交易
+      切换 13 个市场分类: 4: 用户
+      点击市场卡片查看详情: 5: 用户
+      查看订单簿深度: 4: 用户
+      点击 Yes/No 快速下单: 5: 用户
+    section 进阶工具
+      打开 Octobox 8市场同屏: 5: 用户
+      拖拽重排市场格子: 4: 用户
+      点击格子内订单簿行下单: 4: 用户
+      查看 Pulse 市场热度: 3: 用户
+      查看 Calendar 即将到期市场: 4: 用户
+    section 复制交易
+      进入 Copy Trade 模块: 4: 用户
+      选择要跟随的交易者: 4: 用户
+      开启自动跟单: 4: 用户
+```
+
+### 2.2 Discover 页面交互流程
+
+```mermaid
+flowchart TD
+    A[访问 stand.trade/discover] --> B[展示热门市场列表]
+    B --> C{选择分类}
+    C --> C1[Trending / All / New]
+    C --> C2[Politics / Sports / Crypto]
+    C --> C3[Finance / Economy / Culture]
+    C --> C4[Weather / Companies / Tech / Climate]
+    C --> C5[Mentions]
+    C1 --> D[市场卡片展示]
+    D --> D1[Vol 总量 + 24h 量 + Liq 流动性 + End 到期日]
+    D --> D2[多结果市场各选项概率]
+    D --> D3[Yes / No 快速下单按钮]
+    D3 --> E{已登录?}
+    E -->|否| F[弹出登录]
+    E -->|是| G[确认订单]
+    G --> H[钱包签名]
+    H --> I[成交]
+```
+
+### 2.3 Octobox 使用流程（实测详情）
+
+```mermaid
+flowchart TD
+    A[访问 stand.trade/octobox] --> B[欢迎引导弹窗]
+    B --> B1[说明: 最多追踪8个市场 无需切换标签]
+    B --> B2[点击 + 图标搜索市场 填充格子]
+    B --> B3[点击格子或订单簿行 浮动下单窗口]
+    B --> B4[拖拽格子头部 重新排列]
+    B --> B5[格子头部 X 键移除市场]
+    B --> B6[布局选择: 1/2/3 列]
+    B --> B7[每个格子可切换 订单簿/成交记录]
+    B --> B8[布局和市场顺序自动保存]
+    B1 --> C[关闭引导 开始使用]
+    C --> D[同屏监控最多8个市场]
+    D --> E[实时订单簿更新]
+    E --> F[发现机会 点击下单]
+    F --> G[浮动交易窗口]
+    G --> H[签名成交]
+```
+
+**Octobox 真实功能（实测确认）**：
+- 同屏监控 **最多 8 个市场**，无需切换标签
+- 每个格子独立显示 **订单簿 + 成交记录**（可切换）
+- 支持 **1/2/3 列布局**切换
+- 点击格子或订单簿行弹出**浮动交易窗口**
+- **拖拽重排**：抓取格子头部的拖拽手柄重新排列
+- **布局持久化**：市场列表和排列顺序自动保存
+- **壁垒**：全 Builder 生态唯一，专为多市场同时监控设计，做市商必备
+
+---
+
+## 3. 业务架构（原第2章）
 
 ```mermaid
 graph TD
@@ -133,13 +227,14 @@ graph LR
 
 ## 4. 核心功能与技术壁垒
 
-### 4.1 「Octobox」独特功能
-- 在所有 Builder 中**唯一**有 Octobox 功能
-- 名称暗示「八爪鱼盒子」，可能是：
-  - 多市场组合管理（同时管理 8 个市场仓位）
-  - 组合策略构建工具
-  - 批量下单工具
-- **壁垒**：独特功能难以被快速复制
+### 4.1 「Octobox」独特功能（实测确认）
+- **同屏最多 8 个市场**：无需标签切换，全局视野
+- **真实 URL**：`stand.trade/octobox`
+- 每格可独立切换 Order Book / Trades 视图
+- 点击格子或订单簿行 → 浮动交易窗口 → 零跳转下单
+- 拖拽重排 + 布局持久化（1/2/3列）
+- 对做市商和多市场套利者极有价值
+- **壁垒**：全 Builder 生态唯一，短期内无竞争者
 
 ### 4.2 「Pulse」功能
 - 可能是市场情绪/脉搏监控工具
@@ -188,16 +283,15 @@ pie title Stand.trade 收入来源推测
 
 ## 6. 待确认问题
 
-- [x] 核心功能：已确认 Discover/Live Feeds/Copy Trade/Calendar/Pulse/Octobox
-- [x] 市场分类：13 个分类，覆盖最全面
-- [x] 有时事运营活动（March Madness）
-- [ ] **Octobox 具体功能是什么？**
-- [ ] **Pulse 的数据来源和计算方法？**
+- [x] **Octobox 具体功能**：已确认 = 8市场同屏监控 + 浮动下单 + 拖拽重排 + 布局保存
+- [x] 真实导航 URL 已全部确认
+- [ ] **Pulse 的数据来源和计算方法？**（访问返回 403，无法实测）
 - [ ] Copy Trade 的具体机制（托管还是非托管？）
+- [ ] Calendar 页面（Cloudflare 保护，无法自动访问）
 - [ ] Login 支持哪些方式（钱包/邮件/社媒？）
 - [ ] BETA 什么时候正式上线？
 - [ ] 团队背景？
-- [ ] 为何需要 Cloudflare 高级保护？
+- [ ] Live Feeds 页面返回 404，该功能是否已下线？
 
 ---
 

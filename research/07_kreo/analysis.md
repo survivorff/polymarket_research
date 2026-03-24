@@ -26,7 +26,164 @@ Kreo 定位为 **多平台预测市场实时信息流 + 钱包追踪 + 做市工
 
 ---
 
-## 2. 业务架构
+## 2. 用户体验路径
+
+### 2.1 完整用户旅程
+
+```mermaid
+journey
+    title Kreo.app 用户完整体验旅程
+    section 入门（Telegram 登录）
+      访问 kreo.app: 4: 用户
+      点击 Connect with Telegram: 5: 用户
+      Telegram OAuth 授权 @KreoMainBot: 5: 系统
+      Privy 自动创建嵌入式钱包: 5: 系统
+      登录成功，进入 Feed 页面: 5: 用户
+    section 信息流使用
+      浏览 X Feed / Wallet Tracker Feed: 5: 用户
+      切换 Polymarket / Kalshi 过滤: 5: 用户
+      发现 Smart Wallets 异常活动: 4: 用户
+      点击 Quick Buy 一键下单: 5: 用户
+    section 钱包追踪
+      进入 Wallet Tracker 模块: 4: 用户
+      添加目标钱包地址: 4: 用户
+      创建分组管理多个钱包: 4: 用户
+      监控余额和交易动态: 4: 用户
+    section 提醒设置
+      进入 Alerts 模块: 4: 用户
+      创建价格提醒: 4: 用户
+      设置关键词高亮规则: 4: 用户
+      自定义提醒声音: 3: 用户
+    section 奖励与做市
+      查看 Rewards 分级状态: 4: 用户
+      累积交易量升级等级: 3: 用户
+      领取 Cashback 返佣: 4: 用户
+      进入 Bonds 做市: 3: 用户
+```
+
+### 2.2 Telegram 登录 → 首次使用流程
+
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant K as Kreo.app
+    participant TG as Telegram
+    participant PR as Privy
+    participant CB as Coinbase Pay
+
+    U->>K: 访问 kreo.app
+    K->>U: 展示 「Connect with Telegram」按钮
+    U->>K: 点击连接
+    K->>TG: OAuth 请求 via @KreoMainBot
+    TG-->>K: 返回用户身份令牌
+    K->>PR: 创建嵌入式钱包
+    PR-->>K: 钱包地址（Polygon/Solana）
+    K->>U: 登录成功，显示 Feed
+    U->>K: 需要充值
+    K->>CB: Coinbase Pay 入金流程
+    CB-->>K: USDC 到账
+    K->>U: 余额更新
+```
+
+### 2.3 Feed 信息流使用流程
+
+```mermaid
+flowchart TD
+    A[进入 Feed 页面] --> B{选择 Feed 类型}
+    B --> B1[X/Twitter Feed]
+    B --> B2[Wallet Tracker Feed]
+    B --> B3[Smart Wallets]
+    B --> B4[Unusual Activity 异常活动]
+
+    B --> C{平台过滤}
+    C --> C1[All 全部]
+    C --> C2[Polymarket only]
+    C --> C3[Kalshi only]
+
+    B1 --> D[浏览实时推文]
+    B4 --> E[发现大额异常下单]
+    E --> F[分析是否值得跟单]
+    F --> G[点击 Quick Buy $]
+    G --> H[弹出快速下单面板]
+    H --> I[输入金额确认]
+    I --> J[Privy 钱包签名]
+    J --> K[成交]
+
+    B --> L{分类过滤 12类}
+    L --> L1[companies / health / sports]
+    L --> L2[economics / politics / crypto]
+    L --> L3[entertainment / financials / ...]
+```
+
+### 2.4 Wallet Tracker 使用流程
+
+```mermaid
+flowchart TD
+    A[进入 Wallet Tracker] --> B[点击 Add Wallet]
+    B --> C[输入钱包地址]
+    C --> D[命名钱包]
+    D --> E[选择分组 或新建分组]
+    E --> F[保存]
+    F --> G[实时监控该钱包]
+    G --> G1[余额变化提醒]
+    G --> G2[新增交易提醒]
+    G --> G3[在 Feed 中显示该钱包活动]
+    G3 --> H[Wallet Tracker Feed 流]
+    H --> I[发现目标下单]
+    I --> J[Quick Buy 跟单]
+```
+
+### 2.5 Alerts 提醒系统使用流程
+
+```mermaid
+flowchart TD
+    A[进入 Alerts 页面] --> B[Create Price Alert]
+    B --> C[选择市场]
+    C --> D[设置目标价格]
+    D --> E[设置触发方向 上穿/下穿]
+    E --> F[保存提醒]
+    F --> G[系统监控市场价格]
+    G --> H{价格到达目标?}
+    H -->|是| I[触发提醒]
+    I --> I1[浏览器通知]
+    I --> I2[自定义声音]
+    I --> I3[关键词高亮]
+    I --> J[用户查看并快速下单]
+    H -->|否| G
+
+    A --> K[Active Alerts 活跃提醒列表]
+    A --> L[Completed 已触发提醒历史]
+```
+
+### 2.6 Rewards 分级奖励流程（实测）
+
+```mermaid
+flowchart TD
+    A[新用户 Bronze 等级] --> B[累积交易量]
+    B --> C{达到 Silver 门槛?}
+    C -->|是| D[升级 Silver]
+    D --> E{达到 Gold 门槛?}
+    E -->|是| F[升级 Gold]
+    F --> G[更高 Cashback %]
+    F --> H[更高 Referral %]
+
+    A --> I[生成推荐链接 kreo.app/@自己]
+    I --> J[分享给新用户]
+    J --> K[新用户注册并交易]
+    K --> L[推荐人获得佣金 %]
+    L --> M[累积未领取奖励]
+    M --> N[点击 Claim 领取 USDC]
+```
+
+**实测 Rewards 页面数据（未登录状态）**：
+- 当前等级：Bronze
+- 显示字段：% Cashback / % Referral Rate / Your Referral Link
+- 展示：Cashback Commission / Referral Commissions / Total Unclaimed / Total Lifetime Earnings
+- 具体分级门槛（Silver/Gold 交易量阈值）及对应费率：**需登录后查看，当前无法获取**
+
+---
+
+## 3. 业务架构
 
 ```mermaid
 graph TD
