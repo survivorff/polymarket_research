@@ -10,28 +10,57 @@
 
 ```
 research/
-├── 01_betmoar/          # Betmoar.fun — #1, $208.64M/月
-├── 02_polycop/          # PolyCop — #2, $53.28M/月
-├── 03_polymtrade/       # Polymtrade — #3, $28.44M/月
-├── 04_polygun/          # Polygun — #4, $27.71M/月
-├── 05_polytrader_pro/   # PolyTraderPro — #5, $18.07M/月
-├── 06_stand_trade/      # Stand.trade — #6, $16.53M/月
-├── 07_kreo/             # Kreo — #7, $12.83M/月
-├── 08_chance/           # Chance Markets — #8, $9.99M/月
-├── 09_bullpen/          # Bullpen — #10, $5.86M/月（URL待确认）
-├── 10_polymer/          # Polymer — #9, $7.67M/月（URL待确认）
-├── 11_jupiter/          # Jupiter — #11, $5.84M/月
-├── 12_olympusx/         # Olympusx.app — #12, $4.96M/月
-├── 13_evplusai/         # EVplus AI — #13, $3.62M/月
-├── 14_polymaker/        # PolyMaker.bet — #14, $3.57M/月
-├── 17_polydupe/         # Polydupe — #17, $3.06M/月
-├── 19_simmer/           # Simmer Markets — #19, $2.68M/月
-├── 23_polymarket_eye/   # Polymarket Eye — #23, $1.94M/月
-├── 33_almanac/          # Almanac Market — #33, $1.02M/月
-├── 12_rainbow/          # Rainbow Wallet — #25, $1.46M/月
+├── 01_betmoar/          # Betmoar.fun — #1, $208.64M/月 ✅
+├── 02_polycop/          # PolyCop — #2, $53.28M/月 ✅
+├── 03_polymtrade/       # Polymtrade — #3, $28.44M/月 ✅
+├── 04_polygun/          # Polygun — #4, $27.71M/月 ✅
+├── 05_polytrader_pro/   # PolyTraderPro — #5, $18.07M/月 ✅
+├── 06_stand_trade/      # Stand.trade — #6, $16.53M/月 ✅
+├── 07_kreo/             # Kreo — #7, $12.83M/月 ✅
+├── 08_chance/           # Chance Markets — #8, $9.99M/月 ✅
+├── 09_bullpen/          # Bullpen — #10, $5.86M/月 ⚠️ URL待确认
+├── 10_polymer/          # Polymer — #9, $7.67M/月 ⚠️ URL待确认
+├── 11_jupiter/          # Jupiter — #11, $5.84M/月 ✅
+├── 12_olympusx/         # Olympusx.app — #12, $4.96M/月 ✅
+├── 12_rainbow/          # Rainbow Wallet — #25, $1.46M/月 ✅
+├── 13_evplusai/         # EVplus AI — #13, $3.62M/月 ✅
+├── 14_polymaker/        # PolyMaker.bet — #14, $3.57M/月 ✅
+├── 15_onsight/          # Onsight — #15, $3.36M/月 ⚠️ URL待确认
+├── 17_polydupe/         # Polydupe — #17, $3.06M/月 ✅
+├── 18_polybot/          # PolyBot — #18, $2.98M/月 ⚠️ 待调研
+├── 19_simmer/           # Simmer Markets — #19, $2.68M/月 ✅
+├── 20_sharkbetting/     # Sharkbetting — #20, $2.44M/月 ⚠️ 部分
+├── 22_polycule/         # Polycule — #22, $2.06M/月 ⚠️ URL待确认
+├── 23_polymarket_eye/   # Polymarket Eye — #23, $1.94M/月 ✅
+├── 24_dgpredict/        # DGPredict — #24, $1.89M/月 ⚠️ URL待确认
+├── 27_okbet/            # OkBet — #27, $1.18M/月 ⚠️ 待调研
+├── 28_fireplace/        # Fireplace — #28, $1.17M/月 ⚠️ 待调研
+├── 29_noarb/            # NoArb — #29, $1.15M/月 ⚠️ 待调研
+├── 30_polyhelper/       # PolyHelper — #30, $1.09M/月 ⚠️ 待调研
+├── 31_tailgate/         # Tailgate — #31, $1.07M/月 ⚠️ 待调研
+├── 32_synthesis_trade/  # Synthesis.Trade — #32, $1.03M/月 ⚠️ 待调研
+├── 33_almanac/          # Almanac Market — #33, $1.02M/月 ✅
+├── 34_predex/           # Predex — #34, $924.2k/月 ⚠️ 待调研
+├── 35_coinpilot/        # Coinpilot — #35, $879.4k/月 ⚠️ 待调研
+├── 36_fors/             # FORS — #36, $826.3k/月 ⚠️ 待调研
+├── 37_based/            # Based — #37, $799.0k/月 ⚠️ 待调研
+├── 38_ultramarkets/     # Ultramarkets — #38, $693.2k/月 ⚠️ 待调研
+├── 39_fortuna/          # Fortuna — #39, $617.4k/月 ⚠️ 待调研
+├── 40_ares/             # Ares — #40, $575.0k/月 ⚠️ 待调研
+├── 41_doubleup/         # DoubleUp — #41, $570.9k/月 ⚠️ 待调研
+├── 42_polycrypto_bot/   # PolyCrypto Bot — #42, $520.4k/月 ⚠️ 待调研
+├── 43_wen_market/       # Wen.market — #43, $495.1k/月 ⚠️ 待调研
+├── 44_polycool/         # Polycool — #44, $477.0k/月 ⚠️ 待调研
+├── 45_kiyotaka/         # Kiyotaka — #45, $468.1k/月 ⚠️ 待调研
+├── 46_bankr/            # Bankr — #46, $464.9k/月 ⚠️ 待调研
+├── 47_spectraview/      # SpectraView — #47, $444.1k/月 ⚠️ 待调研
+├── 48_unifai/           # UnifAI — #48, $301.3k/月 ⚠️ 待调研
+├── 49_polygold/         # PolyGold.Trade — #49, $291.5k/月 ⚠️ 待调研
+├── 50_carboncopy/       # CarbonCopy — #50, $270.9k/月 ⚠️ 待调研
 └── summary/
     ├── overview.md      # 全景汇总报告
-    └── open_questions.md
+    ├── open_questions.md
+    └── limitations.md
 ```
 
 ---
@@ -54,42 +83,42 @@ research/
 | #12 | Olympusx.app | $4.96M | ✅ 完成 | [查看](./12_olympusx/analysis.md) |
 | #13 | EVplus AI | $3.62M | ✅ 完成（Bot未上线）| [查看](./13_evplusai/analysis.md) |
 | #14 | PolyMaker.bet | $3.57M | ✅ 完成 | [查看](./14_polymaker/analysis.md) |
-| #15 | Onsight | $3.36M | ⚠️ URL待确认 | — |
+| #15 | Onsight | $3.36M | ⚠️ URL待确认 | [查看](./15_onsight/analysis.md) |
 | #16 | Polytrader.app | $3.35M | ✅ 含在#5 | [查看](./05_polytrader_pro/analysis.md) |
 | #17 | Polydupe | $3.06M | ✅ 完成 | [查看](./17_polydupe/analysis.md) |
-| #18 | PolyBot | $2.98M | ⚠️ 待调研 | — |
+| #18 | PolyBot | $2.98M | ⚠️ 待调研 | [查看](./18_polybot/analysis.md) |
 | #19 | Simmer.Markets | $2.68M | ✅ 完成 | [查看](./19_simmer/analysis.md) |
-| #20 | Sharkbetting.com | $2.44M | ⚠️ 连接失败 | — |
-| #21 | swaps.xyz | $2.33M | ⚠️ MoonPay跨链API，非PM专属 | — |
-| #22 | Polycule | $2.06M | ⚠️ 超时，待确认 | — |
+| #20 | Sharkbetting.com | $2.44M | ⚠️ 部分调研 | [查看](./20_sharkbetting/analysis.md) |
+| #21 | swaps.xyz | $2.33M | ⚠️ MoonPay跨链API | — |
+| #22 | Polycule | $2.06M | ⚠️ URL待确认 | [查看](./22_polycule/analysis.md) |
 | #23 | Polymarket Eye | $1.94M | ✅ 完成 | [查看](./23_polymarket_eye/analysis.md) |
-| #24 | DGPredict | $1.89M | ⚠️ 待调研 | — |
+| #24 | DGPredict | $1.89M | ⚠️ URL待确认 | [查看](./24_dgpredict/analysis.md) |
 | #25 | Rainbow | $1.46M | ✅ 完成 | [查看](./12_rainbow/analysis.md) |
-| #26 | Ask Gina | $1.40M | ⚠️ AI投资组合助手，非PM专属 | — |
-| #27 | OkBet | $1.18M | ⚠️ 待调研 | — |
-| #28 | fireplace | $1.17M | ⚠️ 待调研 | — |
-| #29 | NoArb | $1.15M | ⚠️ 连接失败 | — |
-| #30 | PolyHelper.io | $1.09M | ⚠️ 待调研 | — |
-| #31 | Tailgate | $1.07M | ⚠️ 待调研 | — |
-| #32 | Synthesis.Trade | $1.03M | ⚠️ 待调研 | — |
+| #26 | Ask Gina | $1.40M | ⚠️ AI助手，非PM专属 | — |
+| #27 | OkBet | $1.18M | ⚠️ 待调研 | [查看](./27_okbet/analysis.md) |
+| #28 | fireplace | $1.17M | ⚠️ 待调研 | [查看](./28_fireplace/analysis.md) |
+| #29 | NoArb | $1.15M | ⚠️ 待调研 | [查看](./29_noarb/analysis.md) |
+| #30 | PolyHelper.io | $1.09M | ⚠️ 待调研 | [查看](./30_polyhelper/analysis.md) |
+| #31 | Tailgate | $1.07M | ⚠️ 待调研 | [查看](./31_tailgate/analysis.md) |
+| #32 | Synthesis.Trade | $1.03M | ⚠️ 待调研 | [查看](./32_synthesis_trade/analysis.md) |
 | #33 | almanac.market | $1.02M | ✅ 完成 | [查看](./33_almanac/analysis.md) |
-| #34 | Predex | $924.2k | ⚠️ 待调研 | — |
-| #35 | Coinpilot | $879.4k | ⚠️ 待调研 | — |
-| #36 | FORS | $826.3k | ⚠️ 待调研 | — |
-| #37 | Based | $799.0k | ⚠️ 待调研 | — |
-| #38 | Ultramarkets | $693.2k | ⚠️ 待调研 | — |
-| #39 | Fortuna | $617.4k | ⚠️ 待调研 | — |
-| #40 | Ares | $575.0k | ⚠️ 待调研 | — |
-| #41 | DoubleUp | $570.9k | ⚠️ 待调研 | — |
-| #42 | PolyCrypto Bot | $520.4k | ⚠️ 待调研 | — |
-| #43 | Wen.market | $495.1k | ⚠️ 待调研 | — |
-| #44 | Polycool | $477.0k | ⚠️ 待调研 | — |
-| #45 | Kiyotaka | $468.1k | ⚠️ 待调研 | — |
-| #46 | Bankr | $464.9k | ⚠️ 待调研 | — |
-| #47 | SpectraView | $444.1k | ⚠️ 待调研 | — |
-| #48 | UnifAI | $301.3k | ⚠️ 待调研 | — |
-| #49 | PolyGold.Trade | $291.5k | ⚠️ 待调研 | — |
-| #50 | CarbonCopy | $270.9k | ⚠️ 待调研 | — |
+| #34 | Predex | $924.2k | ⚠️ 待调研 | [查看](./34_predex/analysis.md) |
+| #35 | Coinpilot | $879.4k | ⚠️ 待调研 | [查看](./35_coinpilot/analysis.md) |
+| #36 | FORS | $826.3k | ⚠️ 待调研 | [查看](./36_fors/analysis.md) |
+| #37 | Based | $799.0k | ⚠️ 待调研 | [查看](./37_based/analysis.md) |
+| #38 | Ultramarkets | $693.2k | ⚠️ 待调研 | [查看](./38_ultramarkets/analysis.md) |
+| #39 | Fortuna | $617.4k | ⚠️ 待调研 | [查看](./39_fortuna/analysis.md) |
+| #40 | Ares | $575.0k | ⚠️ 待调研 | [查看](./40_ares/analysis.md) |
+| #41 | DoubleUp | $570.9k | ⚠️ 待调研 | [查看](./41_doubleup/analysis.md) |
+| #42 | PolyCrypto Bot | $520.4k | ⚠️ 待调研 | [查看](./42_polycrypto_bot/analysis.md) |
+| #43 | Wen.market | $495.1k | ⚠️ 待调研 | [查看](./43_wen_market/analysis.md) |
+| #44 | Polycool | $477.0k | ⚠️ 待调研 | [查看](./44_polycool/analysis.md) |
+| #45 | Kiyotaka | $468.1k | ⚠️ 待调研 | [查看](./45_kiyotaka/analysis.md) |
+| #46 | Bankr | $464.9k | ⚠️ 待调研 | [查看](./46_bankr/analysis.md) |
+| #47 | SpectraView | $444.1k | ⚠️ 待调研 | [查看](./47_spectraview/analysis.md) |
+| #48 | UnifAI | $301.3k | ⚠️ 待调研 | [查看](./48_unifai/analysis.md) |
+| #49 | PolyGold.Trade | $291.5k | ⚠️ 待调研 | [查看](./49_polygold/analysis.md) |
+| #50 | CarbonCopy | $270.9k | ⚠️ 待调研 | [查看](./50_carboncopy/analysis.md) |
 
 ---
 
